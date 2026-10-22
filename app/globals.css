@@ -57,3 +57,56 @@
     font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   }
 }
+
+nav a[aria-current='location'] {
+  color: #315fca;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 1px;
+}
+
+.engineering-gallery > div { break-inside: avoid; margin-bottom: 3rem; }
+
+@media (min-width: 640px) {
+  .engineering-gallery { columns: 2; column-gap: 2rem; }
+  .engineering-gallery > div:first-child { column-span: all; margin-bottom: 3.5rem; }
+}
+
+/* Long-form chapters: a stationary introduction beside passing work. */
+@media (min-width: 1024px) {
+  #engineering, #product-growth {
+    display: grid;
+    grid-template-columns: minmax(230px, 0.75fr) minmax(0, 1.75fr);
+    align-items: start;
+    column-gap: 4rem;
+  }
+
+  #engineering > [data-scroll-reveal],
+  #product-growth > [data-scroll-reveal] {
+    position: sticky;
+    top: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  #engineering > [data-scroll-reveal] p,
+  #product-growth > [data-scroll-reveal] p {
+    text-align: left;
+  }
+
+  #engineering h2, #product-growth h2 { font-size: clamp(2.8rem, 4.3vw, 4rem); }
+  #engineering > div:nth-child(2) { display: block; min-width: 0; margin-top: 0; }
+  #engineering aside { display: none; }
+  #product-growth > div:nth-child(2) { grid-template-columns: 1fr; margin-top: 0; gap: 3rem; }
+  #product-growth > div:nth-child(2) > div { grid-template-columns: 1fr 1fr; align-items: start; gap: 1.5rem; }
+  #product-growth > div:nth-child(2) > div > article:last-child { margin-top: 4rem; }
+  #leadership > div { transform-origin: center top; }
+  footer > div:first-child { transform-origin: center bottom; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

@@ -1,7 +1,12 @@
 import headerLeftMiffy from '../images/headerleftmiffy.png';
 import headerRightMiffy from '../images/headerrightmiffy.png';
 import ivyMiffy from '../images/ivymiffy.png';
-import bigIvyMiffy from '../images/bigivymiffy.png';
+import { MiffyHead } from '@/components/miffy-head';
+import { MiffyRunner } from '@/components/miffy-runner';
+import { ScrollMotion } from '@/components/scroll-motion';
+import { EducationAndSkills, ResearchExperience } from '@/components/portfolio-experience';
+import { projectDetails } from '@/lib/portfolio-content';
+import { projectImages } from '@/lib/project-images';
 import technicalMiffyOne from '../images/technicalmiffy1.png';
 import technicalMiffyTwo from '../images/technicalmiffy2.png';
 import technicalMiffyThree from '../images/technicalmiffy3.png';
@@ -44,26 +49,28 @@ const miffyAscii = String.raw`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀�
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡆⣀⡀⠀⡞⠁
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠈⠙⠁⠀`;
 
-const engineeringProjects = [
+const projectIllustrations = [
   {
-    title: 'Project 01',
     image: technicalMiffyOne,
     alt: 'Miffy working with laboratory glassware',
     imageBackground: 'bg-[#dceaff]',
   },
   {
-    title: 'Project 02',
     image: technicalMiffyTwo,
     alt: 'Miffy holding laboratory glassware',
     imageBackground: 'bg-[#eee5fa]',
   },
   {
-    title: 'Project 03',
     image: technicalMiffyThree,
     alt: 'Miffy reading a book',
     imageBackground: 'bg-[#f8e5ea]',
   },
 ];
+
+const engineeringProjects = projectDetails.map((project, index) => ({
+  ...projectIllustrations[index % projectIllustrations.length],
+  ...project,
+}));
 
 // Replace these URLs whenever you want to update your social profiles or résumé.
 const socialNavItems = [
@@ -94,6 +101,7 @@ const sectionLinks = [
 export default function Home() {
   return (
     <>
+      <ScrollMotion />
       <header className="fixed inset-x-0 top-0 z-50 border-b border-black/[0.07] bg-[#f7f6f2]/90 backdrop-blur-xl">
         <nav
           aria-label="Primary navigation"
@@ -153,8 +161,8 @@ export default function Home() {
         </nav>
       </header>
 
-      <main id="top" className="overflow-hidden pt-16">
-        <section className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:px-10 lg:gap-20 lg:px-14">
+      <main id="top" className="overflow-x-clip pt-16">
+        <section id="hero" className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:px-10 lg:gap-20 lg:px-14">
           <div className="relative z-10 max-w-xl">
             <p className="mb-6 inline-flex items-center rounded-full border border-black/10 bg-white/65 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#666a75] shadow-sm backdrop-blur">
               Engineer · builder · human
@@ -167,8 +175,8 @@ export default function Home() {
               <TypewriterText />
             </div>
             <p className="mt-7 max-w-lg text-base leading-7 text-[#676b75] sm:text-lg">
-              A playful corner of the internet for the things I build, learn,
-              and care about.
+              Designing medical devices, exploring product ideas, and turning
+              user needs into thoughtful, tested solutions.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <a
@@ -187,21 +195,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[35rem]">
+          <div data-scroll-depth="0.08" className="relative mx-auto w-full max-w-[35rem]">
             <div className="relative aspect-[5/6] overflow-hidden rounded-[3rem] border border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.88),rgba(208,226,255,0.78))] shadow-[0_35px_90px_rgba(72,91,128,0.18)]">
               <div className="absolute inset-x-6 top-6 flex items-center justify-between text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#646b79] sm:inset-x-8 sm:top-8">
                 <span>Portfolio</span>
                 <span>2026</span>
               </div>
-              <img
-                src={bigIvyMiffy.src}
-                alt="Miffy wearing headphones and a pink shirt"
-                width={bigIvyMiffy.width}
-                height={bigIvyMiffy.height}
-                className="absolute bottom-4 left-1/2 h-auto w-[86%] -translate-x-1/2 object-contain sm:bottom-7"
-              />
+              <MiffyHead />
             </div>
-            <div className="absolute -bottom-5 -left-5 flex items-center gap-3 rounded-2xl border border-white bg-white/90 p-3 pr-5 shadow-[0_18px_50px_rgba(71,77,95,0.16)] backdrop-blur sm:-left-10 sm:p-4 sm:pr-6">
+            <div data-scroll-depth="-0.13" className="absolute -bottom-5 -left-5 flex items-center gap-3 rounded-2xl border border-white bg-white/90 p-3 pr-5 shadow-[0_18px_50px_rgba(71,77,95,0.16)] backdrop-blur sm:-left-10 sm:p-4 sm:pr-6">
               <img
                 src={ivyMiffy.src}
                 alt="Ivy Miffy peeking over a starry blanket"
@@ -222,9 +224,9 @@ export default function Home() {
         <section
           id="engineering"
           aria-labelledby="engineering-heading"
-          className="mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
+          className="scroll-chapter mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
         >
-          <div className="flex flex-col gap-4 border-b border-black/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div data-scroll-reveal className="flex flex-col gap-4 border-b border-black/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#747985]">01 · Selected work</p>
               <h2
@@ -251,28 +253,34 @@ export default function Home() {
               </pre>
             </aside>
 
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="engineering-gallery">
               {engineeringProjects.map((project) => (
                 <EngineeringProjectCard
                   key={project.title}
                   title={project.title}
+                  summary={project.summary}
+                  href={`/projects/${project.slug}`}
                   imageSrc={project.image.src}
                   imageWidth={project.image.width}
                   imageHeight={project.image.height}
                   alt={project.alt}
-                  imageBackground={project.imageBackground}
+                  imageBackground={projectImages[project.title] ? 'bg-[#f2f1ee]' : project.imageBackground}
+                  gallery={projectImages[project.title]}
+                  videoSrc={project.title === 'InfantLift' ? '/projects/infantlift-demo.mp4' : undefined}
                 />
               ))}
             </div>
           </div>
         </section>
 
+        <ResearchExperience />
+
         <section
           id="product-growth"
           aria-labelledby="product-growth-heading"
-          className="mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
+          className="scroll-chapter mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
         >
-          <div className="flex flex-col gap-4 border-b border-black/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div data-scroll-reveal className="flex flex-col gap-4 border-b border-black/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#747985]">02 · Product thinking</p>
               <h2
@@ -295,12 +303,12 @@ export default function Home() {
               </div>
               <div className="mt-6 grid min-h-[25rem] items-center gap-6 overflow-hidden rounded-[1.75rem] bg-[#f6dfe5] px-6 pt-8 sm:grid-cols-[0.9fr_1.1fr] sm:px-10">
                 <div className="self-center pb-8">
-                  <h3 className="display-font text-4xl italic tracking-[-0.03em] sm:text-5xl">Gamification</h3>
-                  <p className="mt-4 max-w-xs text-sm leading-6 text-[#6e6267]">Short project description</p>
-                  <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#75686d]">PRDs · surveys · research</p>
+                  <h3 className="display-font text-4xl italic tracking-[-0.03em] sm:text-5xl">Learning, made engaging.</h3>
+                  <p className="mt-4 max-w-xs text-sm leading-6 text-[#6e6267]">Researched streaks, stats, and gamification across 3+ core experiences, translating student pain points into features and UX recommendations.</p>
+                  <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#75686d]">User surveys · product research · UX</p>
                 </div>
                 <img
-                  src={dinosaurMiffy.src}
+                  data-scroll-depth="-0.05" src={dinosaurMiffy.src}
                   alt="Miffy wearing headphones"
                   width={dinosaurMiffy.width}
                   height={dinosaurMiffy.height}
@@ -311,16 +319,17 @@ export default function Home() {
 
             <div className="grid gap-5">
               <article className="rounded-[2.25rem] border border-black/[0.07] bg-[#dceaff]/75 p-7 shadow-[0_20px_60px_rgba(73,78,94,0.07)]">
-                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#5c6d8c]">Metrics</p>
-                <h3 className="display-font mt-10 text-4xl italic tracking-[-0.03em]">Measure what matters.</h3>
-                <p className="mt-4 text-sm leading-6 text-[#62708a]">A home for outcome-focused work, coming soon.</p>
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#5c6d8c]">Research</p>
+                <h3 className="display-font mt-10 text-4xl italic tracking-[-0.03em]">Listen. Compare. Iterate.</h3>
+                <p className="mt-4 text-sm leading-6 text-[#62708a]">Designed surveys testing four product/UI variants and translated qualitative feedback into design iterations. Analyzed 10+ productivity and education platforms to identify patterns in onboarding, gamification, premium conversion, and retention.</p>
               </article>
 
               <article className="relative min-h-[17rem] overflow-hidden rounded-[2.25rem] border border-black/[0.07] bg-white/70 p-7 shadow-[0_20px_60px_rgba(73,78,94,0.07)]">
                 <p className="relative z-10 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#747985]">Growth</p>
-                <h3 className="display-font relative z-10 mt-5 max-w-[12rem] text-4xl italic tracking-[-0.03em]">Curiosity, tested.</h3>
+                <h3 className="display-font relative z-10 mt-5 text-4xl italic tracking-[-0.03em]">A plan for growth.</h3>
+                <p className="relative z-10 mt-4 pb-36 text-sm leading-6 text-[#676b75]">Built a 13-week back-to-school growth plan with a three-post-per-week cadence across social, email, blog, and product channels.</p>
                 <img
-                  src={peekingMiffy.src}
+                  data-scroll-depth="-0.035" src={peekingMiffy.src}
                   alt="Miffy peeking into the growth card"
                   width={peekingMiffy.width}
                   height={peekingMiffy.height}
@@ -334,9 +343,9 @@ export default function Home() {
         <section
           id="leadership"
           aria-labelledby="leadership-heading"
-          className="mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
+          className="scroll-chapter mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
         >
-          <div className="rounded-[2.75rem] border border-black/[0.07] bg-white/55 px-4 py-9 shadow-[0_30px_90px_rgba(73,78,94,0.09)] backdrop-blur sm:px-8 sm:py-12 lg:px-12">
+          <div data-scroll-reveal className="rounded-[2.75rem] border border-black/[0.07] bg-white/55 px-4 py-9 shadow-[0_30px_90px_rgba(73,78,94,0.09)] backdrop-blur sm:px-8 sm:py-12 lg:px-12">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#747985]">03 · People & teams</p>
@@ -355,6 +364,7 @@ export default function Home() {
             <div className="mt-3">
               <LeadershipCarousel />
             </div>
+
           </div>
         </section>
 
@@ -368,23 +378,28 @@ export default function Home() {
             id="technical-skills-heading"
             className="display-font mt-3 text-5xl font-normal italic tracking-[-0.04em] sm:text-6xl"
           >
-            Technical Skills
+            Education & skills
           </h2>
+          <EducationAndSkills />
         </section>
       </main>
 
       <footer className="border-t border-black/[0.07] bg-[#ebeae5]">
         <div className="mx-auto grid min-h-[35rem] w-full max-w-7xl items-center gap-4 px-6 py-12 md:grid-cols-[0.8fr_1.2fr] md:px-10 lg:px-14">
-          <div className="max-w-sm text-center md:text-left">
+          <div data-scroll-reveal className="max-w-sm text-center md:text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#74766f]">One more thing</p>
             <h2 className="display-font mt-4 text-5xl italic tracking-[-0.04em] sm:text-6xl">More about me</h2>
             <p className="mt-5 text-sm leading-6 text-[#70726d]">Hover over the folder to take a peek inside.</p>
+            <p className="mt-5 text-sm leading-7 text-[#70726d]">Away from projects, you’ll find me painting, playing video games or board games, cooking, singing, or on the pickleball court.</p>
           </div>
-          <div className="flex justify-center md:justify-end">
+          <div data-scroll-depth="-0.09" className="flex justify-center md:justify-end">
             <InteractiveFolder />
           </div>
         </div>
+        <MiffyRunner />
       </footer>
     </>
   );
 }
+
+

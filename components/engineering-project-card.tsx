@@ -1,91 +1,62 @@
-'use client';
-
-import { useRef } from 'react';
-
 type EngineeringProjectCardProps = {
   title: string;
+  summary: string;
+  href: string;
   imageSrc: string;
   imageWidth: number;
   imageHeight: number;
   alt: string;
   imageBackground: string;
+  gallery?: Array<{ src: string; alt: string; width: number; height: number }>;
+  videoSrc?: string;
 };
 
 export function EngineeringProjectCard({
-  title,
-  imageSrc,
-  imageWidth,
-  imageHeight,
-  alt,
-  imageBackground,
+  title, summary, href, imageSrc, imageWidth, imageHeight, alt,
+  imageBackground, gallery, videoSrc,
 }: EngineeringProjectCardProps) {
-  const cardRef = useRef<HTMLElement>(null);
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
-    const card = cardRef.current;
-    if (!card || event.pointerType === 'touch') return;
-
-    const bounds = card.getBoundingClientRect();
-    const horizontal = (event.clientX - bounds.left) / bounds.width;
-    const vertical = (event.clientY - bounds.top) / bounds.height;
-    const rotateX = (0.5 - vertical) * 10;
-    const rotateY = (horizontal - 0.5) * 10;
-
-    card.style.setProperty('--tilt-x', `${rotateX}deg`);
-    card.style.setProperty('--tilt-y', `${rotateY}deg`);
-    card.style.setProperty('--shine-x', `${horizontal * 100}%`);
-    card.style.setProperty('--shine-y', `${vertical * 100}%`);
-  };
-
-  const resetTilt = () => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    card.style.setProperty('--tilt-x', '0deg');
-    card.style.setProperty('--tilt-y', '0deg');
-    card.style.setProperty('--shine-x', '50%');
-    card.style.setProperty('--shine-y', '50%');
-  };
+  const displayedImage = gallery?.[0];
 
   return (
-    <div className="h-full [perspective:1000px]">
-      <article
-        ref={cardRef}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={resetTilt}
-        className="group/card relative flex h-full min-h-[25rem] flex-col overflow-hidden rounded-[2rem] border border-black/[0.07] bg-white/75 p-4 shadow-[0_18px_50px_rgba(73,78,94,0.08)] backdrop-blur transition-[transform,box-shadow] duration-150 ease-out [transform:rotateX(var(--tilt-x,0deg))_rotateY(var(--tilt-y,0deg))] [transform-style:preserve-3d] [will-change:transform] hover:shadow-[0_28px_65px_rgba(73,78,94,0.16)] motion-reduce:transform-none motion-reduce:transition-none"
-      >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-20 rounded-[2rem] opacity-0 mix-blend-screen transition-opacity duration-200 group-hover/card:opacity-50 motion-reduce:hidden"
-          style={{
-            background:
-              'radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), rgba(255,255,255,0.8), transparent 28%), linear-gradient(125deg, rgba(255,171,171,0.18), rgba(173,216,255,0.28), rgba(208,174,255,0.2), rgba(255,239,166,0.18))',
-          }}
-        />
-
-        <div className="relative z-10 flex flex-1 flex-col [transform:translateZ(20px)] [transform-style:preserve-3d]">
-          <div className="flex items-center justify-between px-1 py-1">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#7b7f89]">
-              Engineering
-            </span>
-            <span className="size-2 rounded-full bg-[#315fca]" aria-hidden="true" />
+    <div className="min-w-0">
+      <article className="group/card">
+        {videoSrc ? (
+          <div className="overflow-hidden rounded-2xl bg-[#22242a]">
+            <video
+              controls
+              playsInline
+              preload="metadata"
+              aria-label={`${title} demonstration video`}
+              className="aspect-video w-full object-contain"
+            >
+              <source src={videoSrc} type="video/mp4" />
+              Your browser does not support video playback. <a href={videoSrc}>Open the {title} video</a>.
+            </video>
           </div>
-          <div
-            className={`mt-3 flex h-56 items-center justify-center overflow-hidden rounded-[1.55rem] ${imageBackground}`}
+        ) : (
+          <a
+            href={href}
+            aria-label={`Explore ${title}`}
+            className={`block overflow-hidden rounded-2xl ${imageBackground} transition-shadow duration-300 hover:shadow-[0_12px_32px_rgba(73,78,94,0.12)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]`}
           >
             <img
-              src={imageSrc}
-              alt={alt}
-              width={imageWidth}
-              height={imageHeight}
-              className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover/card:scale-[1.03]"
+              src={displayedImage?.src ?? imageSrc}
+              alt={displayedImage?.alt ?? alt}
+              width={displayedImage?.width ?? imageWidth}
+              height={displayedImage?.height ?? imageHeight}
+              loading="lazy"
+              className="block h-auto w-full"
             />
-          </div>
-          <h3 className="display-font mt-5 px-1 text-2xl italic tracking-[-0.02em]">
-            {title}
+          </a>
+        )}
+        <div className="mt-5 border-t border-black/10 pt-4">
+          <h3 className="display-font text-[1.6rem] italic leading-tight tracking-[-0.02em]">
+            <a href={href} className="flex items-start justify-between gap-3 transition-colors hover:text-[#315fca] focus-visible:outline-2 focus-visible:outline-[#315fca]">
+              {title}
+              <span aria-hidden="true" className="mt-1 text-base not-italic text-[#5c6d8c] transition-transform duration-200 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5">↗</span>
+            </a>
           </h3>
-          <p className="mt-2 px-1 text-sm leading-6 text-[#777a84]">Project details coming soon.</p>
+          <p className="mt-3 max-w-lg text-sm leading-6 text-[#676b75]">{summary}</p>
         </div>
       </article>
     </div>

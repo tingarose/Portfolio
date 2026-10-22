@@ -46,7 +46,7 @@ function useCoverTexture() {
     const context = canvas.getContext('2d');
     if (!context) return null;
 
-    context.fillStyle = '#315fca';
+    context.fillStyle = '#d971a0';
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.fillStyle = '#ffffff';
     context.textAlign = 'center';
@@ -141,7 +141,7 @@ function FolderSheets({ open }: { open: boolean }) {
   return (
     <group rotation={[0, 0, 0]} scale={0.92}>
       <mesh geometry={folderGeometry} position={[0, 0, -0.08]}>
-        <meshStandardMaterial color="#2354b8" side={THREE.DoubleSide} roughness={0.5} />
+        <meshStandardMaterial color="#ba5583" side={THREE.DoubleSide} roughness={0.5} />
       </mesh>
 
       <mesh
@@ -161,7 +161,7 @@ function FolderSheets({ open }: { open: boolean }) {
       <group ref={frontCover} position={[-1.575, 0, 0.025]} rotation={[0, 0, 0]}>
         <mesh geometry={folderGeometry} position={[1.575, 0, 0]}>
           <meshStandardMaterial
-          color={coverTexture ? '#ffffff' : '#315fca'}
+          color={coverTexture ? '#ffffff' : '#d971a0'}
             map={coverTexture ?? undefined}
             side={THREE.DoubleSide}
             roughness={0.42}
@@ -179,8 +179,8 @@ export function InteractiveFolder() {
     <div
       role="img"
       tabIndex={0}
-      aria-label="Interactive blue 3D folder labeled More about me; hover or focus to open it"
-      className="h-[24rem] w-full max-w-xl cursor-pointer rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-[#315fca] focus-visible:ring-offset-4 focus-visible:ring-offset-[#ebeae5] sm:h-[28rem]"
+      aria-label="Interactive pink 3D folder labeled More about me; hover or focus to open it"
+      className="h-[24rem] w-full max-w-xl cursor-pointer rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-[#d971a0] focus-visible:ring-offset-4 focus-visible:ring-offset-[#ebeae5] sm:h-[28rem]"
       onPointerEnter={() => setOpen(true)}
       onPointerLeave={() => setOpen(false)}
       onFocus={() => setOpen(true)}

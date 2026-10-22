@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import cloud from '../images/cloud.png';
 import aboutMeMiffy from '../images/aboutmemiffy.png';
 
 const cloudPlacements = [
@@ -14,7 +13,7 @@ const cloudPlacements = [
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const cloudRefs = useRef<Array<HTMLImageElement | null>>([]);
+  const cloudRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [hasEntered, setHasEntered] = useState(false);
 
   useEffect(() => {
@@ -108,17 +107,13 @@ export function AboutSection() {
       />
 
       {cloudPlacements.map((placement, index) => (
-        <img
+        <div
           key={placement}
           ref={(element) => {
             cloudRefs.current[index] = element;
           }}
-          src={cloud.src}
-          alt=""
           aria-hidden="true"
-          width={cloud.width}
-          height={cloud.height}
-          className={`absolute z-[1] h-auto drop-shadow-[0_12px_24px_rgba(87,104,136,0.08)] ${placement} motion-reduce:transition-none`}
+          className={`pointer-events-none absolute z-[1] text-[#8994aa] ${placement} motion-reduce:transition-none`}
           style={{
             opacity: hasEntered ? 1 : 0,
             transform: hasEntered
@@ -129,7 +124,18 @@ export function AboutSection() {
             transitionDelay: `${index * 90}ms`,
             willChange: 'transform, opacity',
           }}
-        />
+        >
+          <svg viewBox="0 0 160 100" fill="none" className="block h-auto w-full" focusable="false">
+            <path
+              d="M39 76C23 76 13 66 13 53C13 40 23 30 36 30C40 17 51 10 64 13C73 2 90 3 100 12C111 11 122 19 124 31C138 32 148 42 148 55C148 67 138 76 124 76Z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </div>
       ))}
 
       <div className="relative z-10 flex max-w-md flex-col items-center rounded-[2.5rem] border border-white bg-[#fffdfa]/85 px-8 py-10 text-center shadow-[0_24px_70px_rgba(73,78,94,0.13)] backdrop-blur-md sm:px-12 sm:py-12">
@@ -150,8 +156,9 @@ export function AboutSection() {
           className="mt-4 h-auto w-36 sm:w-44"
         />
         <p className="mt-5 max-w-sm text-base leading-7 text-[#6f727c] sm:text-lg">
-          A little about me... more coming soon.
+          I’m a user-centered bioengineer focused on medical device design. I turn ideas into tested prototypes through research, iterative design, and performance evaluation—with the people using them at the center.
         </p>
+        <p className="mt-4 max-w-sm text-sm leading-6 text-[#6f727c]">I enjoy connecting technical work with real needs and bringing cross-functional teams and diverse stakeholders together around a shared direction.</p>
       </div>
     </section>
   );
