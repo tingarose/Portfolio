@@ -184,7 +184,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div data-scroll-depth="0.08" className="relative mx-auto w-full max-w-[35rem]">
+          <div data-scroll-depth="0.08" className="hero-art relative mx-auto w-full max-w-[35rem]">
             <div className="relative aspect-[5/6] overflow-hidden rounded-[3rem] border border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.88),rgba(208,226,255,0.78))] shadow-[0_35px_90px_rgba(72,91,128,0.18)]">
               <div className="absolute inset-x-6 top-6 flex items-center justify-between text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#646b79] sm:inset-x-8 sm:top-8">
                 <span>Portfolio</span>

@@ -107,6 +107,57 @@ nav a[aria-current='location'] {
   footer > div:first-child { transform-origin: center bottom; }
 }
 
+/* Keep the composition comfortable on laptop screens, including short displays. */
+@media (min-width: 768px) and (max-width: 1599px) {
+  main > section,
+  body > footer > div:first-child {
+    max-width: 72rem;
+  }
+
+  #hero {
+    min-height: min(42rem, calc(100svh - 4rem));
+    gap: 3rem;
+    padding-block: 3rem;
+  }
+
+  #hero h1 { font-size: clamp(3.75rem, 5.8vw, 5rem); }
+  #hero .hero-art { max-width: min(26rem, 33vw, calc((100svh - 11rem) * 5 / 6)); }
+  #hero .hero-art > div:first-child { border-radius: 2rem; }
+  #hero .hero-art > div:last-child { padding: 0.75rem 1rem; }
+  #hero .hero-art > div:last-child img { width: 3.5rem; }
+  #hero > div:first-child > p:last-of-type { font-size: 1rem; line-height: 1.75; }
+
+  main > .scroll-chapter,
+  #technical-skills { padding-block: 4rem; }
+  #about { min-height: 36rem; padding-block: 3rem; }
+  #about > div:last-child { max-width: 25rem; padding: 2rem; }
+  #about > div:last-child img { width: 7rem; }
+  #about > div:last-child p { font-size: 0.875rem; line-height: 1.65; }
+  #about > div:last-child p:first-child { font-size: 0.65rem; }
+
+  #engineering h2,
+  #product-growth h2,
+  main h2.display-font,
+  body > footer h2.display-font { font-size: clamp(2.25rem, 3.2vw, 3rem); }
+  #engineering,
+  #product-growth { column-gap: 2.5rem; }
+  .engineering-gallery > div { margin-bottom: 2rem; }
+  .engineering-gallery > div:first-child { margin-bottom: 2.5rem; }
+  .engineering-gallery article img { max-height: 22rem; object-fit: contain; }
+  #product-growth h3.display-font { font-size: 2rem; }
+  #product-growth article > .grid { min-height: 20rem; padding-inline: 1.5rem; }
+  #product-growth article > .grid img { max-height: 16rem; }
+  #leadership > div { padding: 2rem; }
+  #leadership [aria-label='Leadership highlights'] { height: 34rem; }
+  body > footer > div:first-child { min-height: 27rem; padding-block: 2rem; }
+  body > footer [role='img'][tabindex] { height: 23rem; max-width: 29rem; }
+
+  main:has(> nav[aria-label='Project navigation']) { max-width: 64rem; }
+  main > header > h1 { font-size: clamp(2.5rem, 4.5vw, 3.5rem); }
+  main > header { padding-block: 2.5rem; }
+  main figure img { max-height: min(30rem, 65svh); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
