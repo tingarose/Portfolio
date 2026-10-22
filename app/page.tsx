@@ -18,7 +18,6 @@ import {
   MoveHorizontalIcon,
 } from 'lucide-react';
 import { FaLinkedin } from 'react-icons/fa6';
-import { SiInstagram, SiTiktok } from 'react-icons/si';
 import { AboutSection } from '@/components/about-section';
 import { EngineeringProjectCard } from '@/components/engineering-project-card';
 import { InteractiveFolder } from '@/components/interactive-folder';
@@ -80,16 +79,6 @@ const socialNavItems = [
     Icon: FaLinkedin,
   },
   { label: 'Résumé', href: '/resume.pdf', Icon: FileTextIcon },
-  {
-    label: 'TikTok',
-    href: 'https://www.tiktok.com/@ivytings',
-    Icon: SiTiktok,
-  },
-  {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/tingvey/',
-    Icon: SiInstagram,
-  },
 ];
 
 const sectionLinks = [
