@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+:root {
+  --background: #f8f7f3;
+  --foreground: #22242a;
+  --muted: #6d7079;
+  --line: rgba(34, 36, 42, 0.11);
+  --paper: rgba(255, 255, 255, 0.72);
+  --page-background:
+    radial-gradient(circle at 10% 12%, rgba(255, 226, 238, 0.72), transparent 27rem),
+    radial-gradient(circle at 91% 18%, rgba(183, 215, 255, 0.82), transparent 32rem),
+    linear-gradient(135deg, #fffdfb 0%, #f8f4f8 48%, #eef5ff 100%);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--background);
+    background-image: var(--page-background);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--foreground);
+    font-family: "Avenir Next", Avenir, "Segoe UI", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: #c9ddff;
+    color: #1f3156;
+  }
+}
+
+@layer utilities {
+  .display-font {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+}
