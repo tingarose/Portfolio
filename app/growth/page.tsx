@@ -15,7 +15,7 @@ export default function GrowthPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-10 sm:px-10 sm:py-14">
       <nav aria-label="Growth navigation" className="flex items-center justify-between border-b border-black/10 pb-6 text-sm text-[#5c6d8c]">
-        <a href="/#product-growth" className="hover:underline underline-offset-4">← Back to portfolio</a>
+        <a href="/" data-scroll-target="product-growth" className="hover:underline underline-offset-4">← Back to portfolio</a>
         <a href="/" className="display-font text-xl italic text-[#343741]">Ivy Lee</a>
       </nav>
       <header className="max-w-3xl py-12 sm:py-16">
@@ -65,7 +65,7 @@ export default function GrowthPage() {
         </div>
         <a href="https://youtu.be/0QP3iFkZEZU" target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-sm text-[#5c6d8c] underline underline-offset-4">Watch the tutorial on YouTube ↗</a>
       </section>
-      <footer className="border-t border-black/10 pt-7 text-sm text-[#5c6d8c]"><a href="/#product-growth" className="hover:underline">← Back to Product / Growth</a></footer>
+      <footer className="border-t border-black/10 pt-7 text-sm text-[#5c6d8c]"><a href="/" data-scroll-target="product-growth" className="hover:underline">← Back to Product / Growth</a></footer>
     </main>
   );
 }

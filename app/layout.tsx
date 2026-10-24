@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { SectionNavigation } from '@/components/section-navigation';
 
 export const metadata: Metadata = {
   title: 'Ivy Lee — Portfolio',
@@ -13,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><SectionNavigation />{children}</body>
     </html>
   );
 }

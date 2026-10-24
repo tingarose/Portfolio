@@ -38,7 +38,7 @@ export function ScrollMotion() {
         ? [...document.querySelectorAll<HTMLElement>('[data-scroll-depth]')]
         : [];
       const chapters = [...document.querySelectorAll<HTMLElement>('main > section[id]')];
-      const links = [...document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]')];
+      const links = [...document.querySelectorAll<HTMLAnchorElement>('nav a[data-scroll-target]')];
       let frame = 0;
       const update = () => {
         frame = 0;
@@ -57,7 +57,7 @@ export function ScrollMotion() {
           if (section.getBoundingClientRect().top < window.innerHeight * 0.4) current = section.id;
         });
         links.forEach((link) => {
-          const selected = link.hash === `#${current}`;
+          const selected = link.dataset.scrollTarget === current;
           if (selected) link.setAttribute('aria-current', 'location');
           else link.removeAttribute('aria-current');
         });

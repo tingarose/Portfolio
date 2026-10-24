@@ -83,11 +83,11 @@ const socialNavItems = [
 ];
 
 const sectionLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Work', href: '#engineering' },
-  { label: 'Growth', href: '#product-growth' },
-  { label: 'Leadership', href: '#leadership' },
-  { label: 'Skills', href: '#technical-skills' },
+  { label: 'About', target: 'about' },
+  { label: 'Work', target: 'engineering' },
+  { label: 'Growth', target: 'product-growth' },
+  { label: 'Leadership', target: 'leadership' },
+  { label: 'Skills', target: 'technical-skills' },
 ];
 
 export default function Home() {
@@ -100,7 +100,7 @@ export default function Home() {
           className="mx-auto flex h-16 w-full max-w-[90rem] items-center justify-between gap-4 px-4 sm:px-8 lg:px-12"
         >
           <a
-            href="#top"
+            href="/" data-scroll-target="top"
             aria-label="Back to the top"
             className="flex shrink-0 items-center gap-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
           >
@@ -119,7 +119,7 @@ export default function Home() {
             {sectionLinks.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href="/" data-scroll-target={item.target}
                 className="transition-colors hover:text-[#22242a] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
               >
                 {item.label}
@@ -172,7 +172,7 @@ export default function Home() {
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <a
-                href="#engineering"
+                href="/" data-scroll-target="engineering"
                 className="inline-flex items-center gap-2 rounded-full bg-[#22242a] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(34,36,42,0.18)] transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
               >
                 See my work
@@ -188,7 +188,7 @@ export default function Home() {
                 Resume
               </a>
               <a
-                href="#about"
+                href="/" data-scroll-target="about"
                 className="inline-flex items-center rounded-full border border-black/10 bg-white/60 px-5 py-3 text-sm font-semibold text-[#343741] backdrop-blur transition-all hover:-translate-y-0.5 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
               >
                 About me

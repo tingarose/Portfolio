@@ -24,7 +24,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <main className="mx-auto max-w-6xl px-6 py-10 sm:px-10 sm:py-14">
       <nav aria-label="Project navigation" className="flex items-center justify-between border-b border-black/10 pb-6 text-sm text-[#5c6d8c]">
-        <a href="/#engineering" className="hover:underline underline-offset-4">← Back to projects</a>
+        <a href="/" data-scroll-target="engineering" className="hover:underline underline-offset-4">← Back to projects</a>
         <a href="/" className="display-font text-xl italic text-[#343741]">Ivy Lee</a>
       </nav>
       <header className="max-w-3xl py-12 sm:py-16">
@@ -65,7 +65,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       </section>}
 
       <footer className="flex flex-wrap justify-between gap-5 border-t border-black/10 pt-7 text-sm text-[#5c6d8c]">
-        <a href="/#engineering" className="hover:underline">← All projects</a>
+        <a href="/" data-scroll-target="engineering" className="hover:underline">← All projects</a>
         <a href={`/projects/${next.slug}`} className="hover:underline">Next: {next.title} →</a>
       </footer>
     </main>
