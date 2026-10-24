@@ -89,12 +89,12 @@ nav a[aria-current='location'] {
 .engineering-gallery h3 { font-size: 1.3rem; }
 .engineering-gallery p { margin-top: 0.5rem; }
 
-#top > #about { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1rem; max-width: 58rem; }
+#top > #about { display: flex; position: relative; min-height: 34rem; max-width: 72rem; padding-block: 5rem; }
 #about > div:first-child { inset-block: 1rem; }
-#about .about-card { grid-column: 1 / -1; grid-row: 1; justify-self: center; width: 100%; max-width: 44rem; padding: 1.5rem; border-radius: 2rem; }
+#about .about-card { width: calc(100% - 1rem); max-width: 28rem; padding: 1.5rem; border-radius: 2rem; }
 #about .about-card img { width: 5rem; }
 #about .about-card p:last-child { max-width: none; font-size: 0.9375rem; line-height: 1.65; }
-#about .about-cloud { position: relative; inset: auto; width: min(100%, 8rem); margin: 0; justify-self: center; }
+#about .about-cloud { position: absolute; }
 
 #product-growth > div:nth-child(2) { margin-top: 1.5rem; gap: 1.25rem; }
 #product-growth article { min-height: 0; padding: 1.25rem; }
@@ -120,39 +120,52 @@ nav a[aria-current='location'] {
 #technical-skills > div:last-child > div { display: grid; gap: 1rem; }
 #technical-skills > div:last-child > div > div { margin: 0; }
 
-/* Flat, opaque text surfaces: no perspective, scale, blur, or fixed-height clipping. */
-#leadership > div { padding: 1.5rem; border-radius: 2rem; background: #f5f4f0; backdrop-filter: none; box-shadow: none; }
-.leadership-highlights { display: grid; gap: 1rem; margin-top: 1.25rem; }
-.leadership-role-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; align-content: start; }
-.leadership-role { color: #5c6d8c; background: #fffdfa; border-color: #dedfe3; }
-.leadership-role[aria-selected='true'] { color: #284976; background: #e4ecfa; border-color: #8498bd; }
-.leadership-role:hover { background: #edf1f8; }
-.leadership-detail[hidden] { display: none; }
+/* A small 3D ring, with crisp untransformed text when the front card rests. */
+#leadership > div { padding: 1.25rem; border-radius: 2rem; background: #f5f4f0; backdrop-filter: none; box-shadow: none; }
+#leadership .leadership-carousel { --leadership-depth: 10rem; height: 29rem; perspective: 8000px; }
+#leadership .leadership-carousel > div:first-child,
+#leadership .leadership-readable-card { width: min(20rem, calc(100vw - 5.5rem)); height: 26rem; }
+#leadership .leadership-card-front { padding: 1rem; }
+#leadership .leadership-card-front > span:first-child { margin-bottom: 0.4rem; }
+#leadership .leadership-card-front > span:first-child img { width: 1.75rem; height: 1.75rem; }
+#leadership .leadership-card-front > .display-font { margin-top: 0.5rem; font-size: 1.4rem; }
+#leadership .leadership-card-organization { margin-top: 0.35rem; line-height: 1.4; }
+#leadership .leadership-card-description { margin-top: 0.6rem; font-size: 0.8125rem; line-height: 1.4; }
+#leadership .leadership-card-skills { margin-top: 0.6rem; font-size: 0.7rem; line-height: 1.4; }
+
+.engineering-featured { border: 1px solid #d9e1ed; border-radius: 1.5rem; padding: 1rem; background: #edf3fc; }
+.engineering-gallery .engineering-featured article video { height: clamp(15rem, 25vw, 21rem); }
+.engineering-gallery .engineering-featured h3 { font-size: 1.7rem; }
 
 .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr); }
 .portfolio-footer .footer-copy h2 { margin-top: 0.4rem; font-size: 2rem; line-height: 1.15; }
 .portfolio-footer .footer-copy p:not(:first-child) { margin-top: 0.75rem; line-height: 1.65; }
-.portfolio-footer [role='img'][tabindex] { width: 100%; max-width: 12rem; height: 10rem; }
-.portfolio-footer .footer-game > summary { list-style-position: inside; }
+.portfolio-footer [role='img'][tabindex] { width: 100%; max-width: 18rem; height: 15rem; }
+.portfolio-footer .miffy-runner { max-width: 56rem; padding-block: 1rem 1.5rem; }
+.miffy-runner > div > div:first-child { padding-top: 1rem; gap: 0.75rem; }
+.miffy-runner h2 { font-size: 1.75rem; }
+.miffy-runner > div > div:last-child { padding-bottom: 1rem; }
+.miffy-runner button { min-height: 2.5rem; }
 
 @media (min-width: 640px) {
   .engineering-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  #top > #about { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  #about .about-card { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 0.5rem 1.5rem; text-align: left; }
+  .engineering-featured { grid-column: span 2; }
+  #about .about-card { display: grid; grid-template-columns: 5rem minmax(0, 1fr); gap: 0.5rem 1.5rem; text-align: left; }
   #about .about-card > p:first-child,
   #about .about-card h2,
   #about .about-card p:last-child { grid-column: 2; margin: 0; }
-  #about .about-card img { grid-column: 1; grid-row: 1 / span 3; width: 6rem; margin: 0; align-self: center; }
-  .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 12rem; }
+  #about .about-card img { grid-column: 1; grid-row: 1 / span 3; width: 5rem; margin: 0; align-self: center; }
+  .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 18rem; }
 }
 
 @media (min-width: 768px) {
-  .leadership-highlights { grid-template-columns: 14rem minmax(0, 1fr); gap: 1.5rem; }
-  .leadership-role-list { grid-template-columns: 1fr; }
-  .leadership-detail { min-height: 19rem; }
+  #top > #about { min-height: 27rem; padding-block: 3rem; }
+  #leadership .leadership-carousel { --leadership-depth: 11rem; }
+  .portfolio-footer [role='img'][tabindex] { max-width: 22rem; height: 18rem; }
 }
 
 @media (min-width: 1024px) {
+  .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 22rem; }
   .engineering-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #product-growth > div:nth-child(2) { grid-template-columns: 1.2fr 1fr; }
   .portfolio-footer .footer-copy { display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; }
@@ -162,4 +175,11 @@ nav a[aria-current='location'] {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+}
+
+#leadership .leadership-carousel:has(button[aria-current='true']:focus-visible) .leadership-readable-card { outline: 2px solid #315fca; outline-offset: 4px; }
+@media (max-width: 359px) {
+  #leadership .leadership-carousel { height: 34rem; }
+  #leadership .leadership-carousel > div:first-child,
+  #leadership .leadership-readable-card { height: 31rem; }
 }

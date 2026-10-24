@@ -91,7 +91,7 @@ export function MiffyRunner() {
       oscillator.onended = () => { oscillator.disconnect(); volume.disconnect(); };
     };
     enableAudio.current = unlockAudio;
-    const ground = 222;
+    const ground = 206;
     const playerX = 64;
     try { record = Math.max(0, Number(localStorage.getItem('ivy-miffy-best')) || 0); } catch { /* Storage is optional. */ }
     setBest(record);
@@ -101,9 +101,9 @@ export function MiffyRunner() {
       ctx.fillRect(Math.round(x), Math.round(yy), w, h);
     };
     const draw = () => {
-      ctx.clearRect(0, 0, width, 280);
+      ctx.clearRect(0, 0, width, 248);
       ctx.fillStyle = '#f7f6f2';
-      ctx.fillRect(0, 0, width, 280);
+      ctx.fillRect(0, 0, width, 248);
       // A quiet pixel landscape; movement happens only during play.
       for (let i = 0; i < 5; i++) {
         const x = ((i * 211 + 100 - distance * 0.15) % (width + 120) + width + 120) % (width + 120) - 60;
@@ -246,7 +246,7 @@ export function MiffyRunner() {
       width = Math.max(360, Math.round(element.getBoundingClientRect().width));
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
       element.width = width * ratio;
-      element.height = 280 * ratio;
+      element.height = 248 * ratio;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.imageSmoothingEnabled = false;
       draw();
@@ -273,7 +273,7 @@ export function MiffyRunner() {
   }, []);
 
   return (
-    <section aria-labelledby="miffy-runner-title" className="mx-auto max-w-7xl px-6 pb-16 pt-8 md:px-10 lg:px-14">
+    <section aria-labelledby="miffy-runner-title" className="miffy-runner mx-auto max-w-7xl px-6 pb-16 pt-8 md:px-10 lg:px-14">
       <div className="overflow-hidden rounded-[2rem] border border-black/[0.06] bg-[#f7f6f2]">
         <div className="flex flex-wrap items-end justify-between gap-5 px-6 pb-3 pt-7 sm:px-8">
           <div>
@@ -291,7 +291,7 @@ export function MiffyRunner() {
             tabIndex={0}
             role="button"
             aria-label="Miffy runner. Space or Up to start or jump. Hold Down or S to duck under stars. Escape pauses."
-            className="block h-[280px] w-full cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#315fca]"
+            className="block h-[248px] w-full cursor-pointer touch-manipulation focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#315fca]"
             onPointerDown={(event) => { event.currentTarget.focus({ preventScroll: true }); action.current(); }}
             onKeyDown={(event) => {
               if ([' ', 'ArrowUp', 'Enter'].includes(event.key)) {

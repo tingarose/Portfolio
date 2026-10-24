@@ -12,6 +12,7 @@ const cloudPlacements = [
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const cloudRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [hasEntered, setHasEntered] = useState(false);
 
@@ -20,8 +21,9 @@ export function AboutSection() {
     if (!section) return;
 
     const positionCloudStarts = () => {
-      const centerX = section.clientWidth / 2;
-      const centerY = section.clientHeight / 2;
+      const card = cardRef.current;
+      const centerX = card ? card.offsetLeft + card.offsetWidth / 2 : section.clientWidth / 2;
+      const centerY = card ? card.offsetTop + card.offsetHeight / 2 : section.clientHeight / 2;
 
       cloudRefs.current.forEach((cloudElement) => {
         if (!cloudElement) return;
@@ -139,7 +141,7 @@ export function AboutSection() {
         </div>
       ))}
 
-      <div className="about-card relative z-10 flex max-w-md flex-col items-center rounded-[2.5rem] border border-white bg-[#fffdfa]/85 px-8 py-10 text-center shadow-[0_24px_70px_rgba(73,78,94,0.13)] backdrop-blur-md sm:px-12 sm:py-12">
+      <div ref={cardRef} className="about-card relative z-10 flex max-w-md flex-col items-center rounded-[2.5rem] border border-white bg-[#fffdfa]/85 px-8 py-10 text-center shadow-[0_24px_70px_rgba(73,78,94,0.13)] backdrop-blur-md sm:px-12 sm:py-12">
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#777b86]">
           A little context
         </p>

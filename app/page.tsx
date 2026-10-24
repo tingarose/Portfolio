@@ -22,7 +22,7 @@ import { SiTiktok } from 'react-icons/si';
 import { AboutSection } from '@/components/about-section';
 import { EngineeringProjectCard } from '@/components/engineering-project-card';
 import { InteractiveFolder } from '@/components/interactive-folder';
-import { LeadershipHighlights } from '@/components/leadership-highlights';
+import { LeadershipCarousel } from '@/components/leadership-carousel';
 import { TypewriterText } from '@/components/typewriter-text';
 
 const miffyAscii = String.raw`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -249,6 +249,7 @@ export default function Home() {
               {engineeringProjects.map((project) => (
                 <EngineeringProjectCard
                   key={project.title}
+                  featured={project.slug === 'infantlift'}
                   title={project.title}
                   summary={project.summary}
                   href={`/projects/${project.slug}`}
@@ -353,11 +354,11 @@ export default function Home() {
               </div>
               <p className="flex items-center gap-2 text-sm text-[#737681]">
                 <MoveHorizontalIcon className="size-4" aria-hidden="true" />
-                Choose a role to explore
+                Drag the loop to explore
               </p>
             </div>
             <div className="mt-3">
-              <LeadershipHighlights />
+              <LeadershipCarousel />
             </div>
 
           </div>
@@ -392,10 +393,7 @@ export default function Home() {
             <InteractiveFolder />
           </div>
         </div>
-        <details className="footer-game mx-auto max-w-6xl border-t border-black/10">
-          <summary className="cursor-pointer px-6 py-4 text-sm font-medium text-[#5c6d8c] focus-visible:outline-2 focus-visible:outline-[#315fca] md:px-10">A little extra: play the Miffy mini-game</summary>
-          <MiffyRunner />
-        </details>
+        <MiffyRunner />
       </footer>
     </>
   );

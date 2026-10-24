@@ -10,17 +10,19 @@ type EngineeringProjectCardProps = {
   gallery?: Array<{ src: string; alt: string; width: number; height: number }>;
   videoSrc?: string;
   videoPoster?: string;
+  featured?: boolean;
 };
 
 export function EngineeringProjectCard({
   title, summary, href, imageSrc, imageWidth, imageHeight, alt,
-  imageBackground, gallery, videoSrc, videoPoster,
+  imageBackground, gallery, videoSrc, videoPoster, featured = false,
 }: EngineeringProjectCardProps) {
   const displayedImage = gallery?.[0];
 
   return (
-    <div className="min-w-0">
+    <div className={featured ? "engineering-featured min-w-0" : "min-w-0"}>
       <article className="group/card">
+        {featured && <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#5c6d8c]">Featured project</p>}
         {videoSrc ? (
           <div className="overflow-hidden rounded-2xl bg-[#22242a]">
             <video

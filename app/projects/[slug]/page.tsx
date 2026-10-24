@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { projectDetails } from '@/lib/portfolio-content';
 import { projectImages } from '@/lib/project-images';
+import { projectPosters } from '@/lib/project-posters';
 
 export function generateStaticParams() {
   return projectDetails.map(({ slug }) => ({ slug }));
@@ -17,6 +18,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = projectDetails.find((item) => item.slug === slug);
   if (!project) notFound();
   const images = projectImages[project.title] ?? [];
+  const poster = projectPosters[project.slug];
   const next = projectDetails[(projectDetails.indexOf(project) + 1) % projectDetails.length];
 
   return (
@@ -36,6 +38,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <source src="/projects/infantlift-demo.mp4" type="video/mp4" />
           <a href="/projects/infantlift-demo.mp4">Open the InfantLift demonstration video</a>
         </video>
+      </section>}
+
+      {poster && <section aria-label={poster.title} className="my-8 rounded-[2rem] border border-black/10 bg-white/80 p-4 sm:p-6">
+        <h2 className="display-font mb-4 text-3xl italic">{poster.title}</h2>
+        <a href={poster.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full-resolution ${poster.title} (opens in a new tab)`} className="block rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]">
+          <img src={poster.src} alt={poster.alt} width={poster.width} height={poster.height} loading="lazy" className="max-h-[40rem] w-full rounded-xl object-contain" />
+          <span className="mt-4 inline-block text-sm text-[#5c6d8c] underline underline-offset-4">Open full-resolution poster ↗</span>
+        </a>
       </section>}
 
       {images.length > 0 && <section aria-label={`${project.title} gallery`} className="space-y-8">
