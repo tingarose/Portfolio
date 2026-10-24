@@ -22,7 +22,7 @@ import { SiTiktok } from 'react-icons/si';
 import { AboutSection } from '@/components/about-section';
 import { EngineeringProjectCard } from '@/components/engineering-project-card';
 import { InteractiveFolder } from '@/components/interactive-folder';
-import { LeadershipCarousel } from '@/components/leadership-carousel';
+import { LeadershipHighlights } from '@/components/leadership-highlights';
 import { TypewriterText } from '@/components/typewriter-text';
 
 const miffyAscii = String.raw`⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -85,7 +85,9 @@ const socialNavItems = [
 const sectionLinks = [
   { label: 'About', href: '#about' },
   { label: 'Work', href: '#engineering' },
+  { label: 'Growth', href: '#product-growth' },
   { label: 'Leadership', href: '#leadership' },
+  { label: 'Skills', href: '#technical-skills' },
 ];
 
 export default function Home() {
@@ -338,7 +340,7 @@ export default function Home() {
           aria-labelledby="leadership-heading"
           className="scroll-chapter mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
         >
-          <div data-scroll-reveal className="rounded-[2.75rem] border border-black/[0.07] bg-white/55 px-4 py-9 shadow-[0_30px_90px_rgba(73,78,94,0.09)] backdrop-blur sm:px-8 sm:py-12 lg:px-12">
+          <div className="rounded-[2.75rem] border border-black/[0.07] bg-white/55 px-4 py-9 shadow-[0_30px_90px_rgba(73,78,94,0.09)] backdrop-blur sm:px-8 sm:py-12 lg:px-12">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#747985]">03 · People & teams</p>
@@ -351,11 +353,11 @@ export default function Home() {
               </div>
               <p className="flex items-center gap-2 text-sm text-[#737681]">
                 <MoveHorizontalIcon className="size-4" aria-hidden="true" />
-                Drag the loop to explore
+                Choose a role to explore
               </p>
             </div>
             <div className="mt-3">
-              <LeadershipCarousel />
+              <LeadershipHighlights />
             </div>
 
           </div>
@@ -377,20 +379,23 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-black/[0.07] bg-[#ebeae5]">
-        <div className="mx-auto grid min-h-[35rem] w-full max-w-7xl items-center gap-4 px-6 py-12 md:grid-cols-[0.8fr_1.2fr] md:px-10 lg:px-14">
-          <div data-scroll-reveal className="max-w-sm text-center md:text-left">
+      <footer className="portfolio-footer border-t border-black/[0.07] bg-[#ebeae5]">
+        <div className="footer-overview mx-auto grid w-full max-w-6xl items-center gap-6 px-6 py-6 md:px-10">
+          <div className="footer-copy">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#74766f]">One more thing</p>
             <h2 className="display-font mt-4 text-5xl italic tracking-[-0.04em] sm:text-6xl">More about me</h2>
             <p className="mt-5 text-sm leading-6 text-[#70726d]">I’m involved in WE Lead (Women’s Entrepreneurial Leadership Program), BMES, and Bioengage. I also studied abroad with Engineering Japan in summer 2024 and volunteered at Kaiser Permanente Capitol Hill in 2023.</p>
 
             <p className="mt-5 text-sm leading-7 text-[#70726d]">Away from projects, you’ll find me painting, playing video games or board games, cooking, singing, or on the pickleball court.</p>
           </div>
-          <div data-scroll-depth="-0.09" className="flex justify-center md:justify-end">
+          <div className="footer-folder flex justify-center">
             <InteractiveFolder />
           </div>
         </div>
-        <MiffyRunner />
+        <details className="footer-game mx-auto max-w-6xl border-t border-black/10">
+          <summary className="cursor-pointer px-6 py-4 text-sm font-medium text-[#5c6d8c] focus-visible:outline-2 focus-visible:outline-[#315fca] md:px-10">A little extra: play the Miffy mini-game</summary>
+          <MiffyRunner />
+        </details>
       </footer>
     </>
   );

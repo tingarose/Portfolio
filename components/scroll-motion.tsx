@@ -37,9 +37,6 @@ export function ScrollMotion() {
       const layers = desktop.matches
         ? [...document.querySelectorAll<HTMLElement>('[data-scroll-depth]')]
         : [];
-      const surfaces = desktop.matches
-        ? [...document.querySelectorAll<HTMLElement>('#leadership > div, footer > div:first-child')]
-        : [];
       const chapters = [...document.querySelectorAll<HTMLElement>('main > section[id]')];
       const links = [...document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]')];
       let frame = 0;
@@ -54,11 +51,6 @@ export function ScrollMotion() {
             : Math.max(-400, Math.min(400, window.innerHeight * 0.5 - bounds.top - bounds.height * 0.5));
           const offset = travel * Number(element.dataset.scrollDepth);
           element.style.translate = `0 ${offset.toFixed(2)}px`;
-        });
-        surfaces.forEach((element) => {
-          const bounds = element.getBoundingClientRect();
-          const progress = Math.max(0, Math.min(1, (window.innerHeight - bounds.top) / (window.innerHeight * 0.7)));
-          element.style.scale = String(0.94 + progress * 0.06);
         });
         let current = 'top';
         chapters.forEach((section) => {
@@ -90,7 +82,6 @@ export function ScrollMotion() {
         window.removeEventListener('resize', schedule);
         document.removeEventListener('focusin', revealFocused);
         layers.forEach((element) => element.style.removeProperty('translate'));
-        surfaces.forEach((element) => element.style.removeProperty('scale'));
         links.forEach((link) => link.removeAttribute('aria-current'));
       };
     };

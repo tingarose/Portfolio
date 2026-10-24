@@ -111,7 +111,7 @@ export function AboutSection() {
           ref={(element) => {
             cloudRefs.current[index] = element;
           }}
-          className={`pointer-events-none absolute z-[1] text-[#8994aa] ${placement} motion-reduce:transition-none`}
+          className={`about-cloud pointer-events-none absolute z-[1] text-[#8994aa] ${placement} motion-reduce:transition-none`}
           style={{
             opacity: hasEntered ? 1 : 0,
             transform: hasEntered
@@ -139,7 +139,7 @@ export function AboutSection() {
         </div>
       ))}
 
-      <div className="relative z-10 flex max-w-md flex-col items-center rounded-[2.5rem] border border-white bg-[#fffdfa]/85 px-8 py-10 text-center shadow-[0_24px_70px_rgba(73,78,94,0.13)] backdrop-blur-md sm:px-12 sm:py-12">
+      <div className="about-card relative z-10 flex max-w-md flex-col items-center rounded-[2.5rem] border border-white bg-[#fffdfa]/85 px-8 py-10 text-center shadow-[0_24px_70px_rgba(73,78,94,0.13)] backdrop-blur-md sm:px-12 sm:py-12">
         <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-[#777b86]">
           A little context
         </p>

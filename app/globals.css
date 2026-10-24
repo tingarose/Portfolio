@@ -65,123 +65,101 @@ nav a[aria-current='location'] {
   text-decoration-thickness: 1px;
 }
 
-.engineering-gallery > div { break-inside: avoid; margin-bottom: 3rem; }
-
-@media (min-width: 640px) {
-  .engineering-gallery { columns: 2; column-gap: 2rem; }
-  .engineering-gallery > div:first-child { column-span: all; margin-bottom: 3.5rem; }
-}
-
-/* Long-form chapters: a stationary introduction beside passing work. */
-@media (min-width: 1024px) {
-  #engineering, #product-growth {
-    display: grid;
-    grid-template-columns: minmax(230px, 0.75fr) minmax(0, 1.75fr);
-    align-items: start;
-    column-gap: 4rem;
-  }
-
-  #engineering > [data-scroll-reveal],
-  #product-growth > [data-scroll-reveal] {
-    position: sticky;
-    top: 8rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-    padding-bottom: 2rem;
-  }
-
-  #engineering > [data-scroll-reveal] p,
-  #product-growth > [data-scroll-reveal] p {
-    text-align: left;
-  }
-
-  #engineering h2, #product-growth h2 { font-size: clamp(2.8rem, 4.3vw, 4rem); }
-  #engineering > div:nth-child(2) { display: block; min-width: 0; margin-top: 0; }
-  #engineering aside { display: none; }
-  #product-growth > div:nth-child(2) { grid-template-columns: 1fr; margin-top: 0; gap: 3rem; }
-  #product-growth > div:nth-child(2) > div { grid-template-columns: 1fr 1fr; align-items: start; gap: 1.5rem; }
-  #product-growth > div:nth-child(2) > div > article:last-child { margin-top: 4rem; }
-  #leadership > div { transform-origin: center top; }
-  footer > div:first-child { transform-origin: center bottom; }
-}
-
-/* Keep the composition comfortable on laptop screens, including short displays. */
+/* The cover keeps its original composition. The rest is a compact overview. */
 @media (min-width: 768px) and (max-width: 1599px) {
-  main > section,
-  body > footer > div:first-child {
-    max-width: 72rem;
-  }
-
-  #hero {
-    min-height: min(42rem, calc(100svh - 4rem));
-    gap: 3rem;
-    padding-block: 3rem;
-  }
-
+  #hero { max-width: 72rem; min-height: min(42rem, calc(100svh - 4rem)); gap: 3rem; padding-block: 3rem; }
   #hero h1 { font-size: clamp(3.75rem, 5.8vw, 5rem); }
   #hero .hero-art { max-width: min(26rem, 33vw, calc((100svh - 11rem) * 5 / 6)); }
   #hero .hero-art > div:first-child { border-radius: 2rem; }
   #hero .hero-art > div:last-child { padding: 0.75rem 1rem; }
   #hero .hero-art > div:last-child img { width: 3.5rem; }
   #hero > div:first-child > p:last-of-type { font-size: 1rem; line-height: 1.75; }
-
-  main > .scroll-chapter,
-  #technical-skills { padding-block: 4rem; }
-  #about { min-height: 36rem; padding-block: 3rem; }
-  #about > div:last-child { max-width: 25rem; padding: 2rem; }
-  #about > div:last-child img { width: 7rem; }
-  #about > div:last-child p { font-size: 0.875rem; line-height: 1.65; }
-  #about > div:last-child p:first-child { font-size: 0.65rem; }
-
-  #engineering h2,
-  #product-growth h2,
-  main h2.display-font,
-  body > footer h2.display-font { font-size: clamp(2.25rem, 3.2vw, 3rem); }
-  #engineering,
-  #product-growth { column-gap: 2.5rem; }
-  .engineering-gallery > div { margin-bottom: 2rem; }
-  .engineering-gallery > div:first-child { margin-bottom: 2.5rem; }
-  .engineering-gallery article img { max-height: 22rem; object-fit: contain; }
-  #product-growth h3.display-font { font-size: 2rem; }
-  #product-growth article > .grid { min-height: 20rem; padding-inline: 1.5rem; }
-  #product-growth article > .grid img { max-height: 16rem; }
-  #leadership > div { padding: 2rem; }
-  body > footer > div:first-child { min-height: 27rem; padding-block: 2rem; }
-  body > footer [role='img'][tabindex] { height: 23rem; max-width: 29rem; }
-
-  main:has(> nav[aria-label='Project navigation']) { max-width: 64rem; }
-  main > header > h1 { font-size: clamp(2.5rem, 4.5vw, 3.5rem); }
-  main > header { padding-block: 2.5rem; }
-  main figure img { max-height: min(30rem, 65svh); }
 }
 
-/* Size the cards and the 3D ring together; depth magnifies the front card. */
+#top > section:not(#hero) { max-width: 72rem; min-height: 0; padding-block: 2rem; }
+#top > section:not(#hero) h2.display-font { font-size: clamp(2rem, 3vw, 2.75rem); }
+#engineering > div:first-child,
+#product-growth > div:first-child { padding-bottom: 1.25rem; }
+#engineering > div:nth-child(2) { display: block; margin-top: 1.5rem; }
+#engineering aside { display: none; }
+.engineering-gallery { display: grid; grid-template-columns: 1fr; gap: 1.75rem 1.5rem; }
+.engineering-gallery article img,
+.engineering-gallery article video { display: block; width: 100%; height: 11rem; object-fit: contain; }
+.engineering-gallery article > div:last-child { margin-top: 0.75rem; padding-top: 0.75rem; }
+.engineering-gallery h3 { font-size: 1.3rem; }
+.engineering-gallery p { margin-top: 0.5rem; }
+
+#top > #about { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1rem; max-width: 58rem; }
+#about > div:first-child { inset-block: 1rem; }
+#about .about-card { grid-column: 1 / -1; grid-row: 1; justify-self: center; width: 100%; max-width: 44rem; padding: 1.5rem; border-radius: 2rem; }
+#about .about-card img { width: 5rem; }
+#about .about-card p:last-child { max-width: none; font-size: 0.9375rem; line-height: 1.65; }
+#about .about-cloud { position: relative; inset: auto; width: min(100%, 8rem); margin: 0; justify-self: center; }
+
+#product-growth > div:nth-child(2) { margin-top: 1.5rem; gap: 1.25rem; }
+#product-growth article { min-height: 0; padding: 1.25rem; }
+#product-growth h3.display-font { font-size: 1.6rem; line-height: 1.15; }
+#product-growth article > .grid { min-height: 0; grid-template-columns: minmax(0, 1fr) 6rem; gap: 1rem; padding: 1.25rem; margin-top: 1rem; }
+#product-growth article > .grid > div { padding-bottom: 0; }
+#product-growth article > .grid img { max-height: 11rem; }
+#product-growth article > .grid p { margin-top: 0.75rem; }
+#product-growth article > .grid a[href='/growth'] { margin-top: 1rem; }
+#product-growth > div:nth-child(2) > div { gap: 1rem; }
+#product-growth > div:nth-child(2) > div h3 { margin-top: 0.75rem; }
+#product-growth > div:nth-child(2) > div p:last-of-type { padding-bottom: 0; margin-top: 0.75rem; }
+#product-growth > div:nth-child(2) > div > article:last-child { padding-right: 5.5rem; }
+#product-growth > div:nth-child(2) > div > article:last-child img { width: 5rem; }
+
+#research > div:last-child { margin-top: 1.25rem; gap: 1.25rem; }
+#research article,
+#technical-skills article { padding: 1.25rem; }
+#research article h3,
+#technical-skills article h3 { font-size: 1.5rem; }
+#research article p { line-height: 1.65; }
+#technical-skills > div:last-child { margin-top: 1.5rem; gap: 1.5rem; }
+#technical-skills > div:last-child > div { display: grid; gap: 1rem; }
+#technical-skills > div:last-child > div > div { margin: 0; }
+
+/* Flat, opaque text surfaces: no perspective, scale, blur, or fixed-height clipping. */
+#leadership > div { padding: 1.5rem; border-radius: 2rem; background: #f5f4f0; backdrop-filter: none; box-shadow: none; }
+.leadership-highlights { display: grid; gap: 1rem; margin-top: 1.25rem; }
+.leadership-role-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; align-content: start; }
+.leadership-role { color: #5c6d8c; background: #fffdfa; border-color: #dedfe3; }
+.leadership-role[aria-selected='true'] { color: #284976; background: #e4ecfa; border-color: #8498bd; }
+.leadership-role:hover { background: #edf1f8; }
+.leadership-detail[hidden] { display: none; }
+
+.portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr); }
+.portfolio-footer .footer-copy h2 { margin-top: 0.4rem; font-size: 2rem; line-height: 1.15; }
+.portfolio-footer .footer-copy p:not(:first-child) { margin-top: 0.75rem; line-height: 1.65; }
+.portfolio-footer [role='img'][tabindex] { width: 100%; max-width: 12rem; height: 10rem; }
+.portfolio-footer .footer-game > summary { list-style-position: inside; }
+
+@media (min-width: 640px) {
+  .engineering-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #top > #about { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #about .about-card { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 0.5rem 1.5rem; text-align: left; }
+  #about .about-card > p:first-child,
+  #about .about-card h2,
+  #about .about-card p:last-child { grid-column: 2; margin: 0; }
+  #about .about-card img { grid-column: 1; grid-row: 1 / span 3; width: 6rem; margin: 0; align-self: center; }
+  .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 12rem; }
+}
+
 @media (min-width: 768px) {
-  #leadership { padding-block: 3rem; }
-  #leadership > div { max-width: 62rem; margin-inline: auto; padding: 1.5rem 2rem; }
-  #leadership .leadership-carousel {
-    --leadership-depth: clamp(9rem, 15vw, 12rem);
-    height: 30rem;
-    perspective: 2200px;
-  }
-  #leadership .leadership-carousel > div:first-child { width: 20rem; height: 26rem; }
-  #leadership .leadership-card-front { padding: 1.125rem; }
-  #leadership .leadership-card-front > span:first-child { margin-bottom: 0.5rem; }
-  #leadership .leadership-card-front > span:first-child img { width: 2.25rem; height: 2.25rem; }
-  #leadership .leadership-card-front > .display-font { margin-top: 0.5rem; font-size: 1.5rem; }
-  #leadership .leadership-card-description { margin-top: 0.75rem; font-size: 0.8125rem; line-height: 1.5; }
+  .leadership-highlights { grid-template-columns: 14rem minmax(0, 1fr); gap: 1.5rem; }
+  .leadership-role-list { grid-template-columns: 1fr; }
+  .leadership-detail { min-height: 19rem; }
+}
+
+@media (min-width: 1024px) {
+  .engineering-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #product-growth > div:nth-child(2) { grid-template-columns: 1.2fr 1fr; }
+  .portfolio-footer .footer-copy { display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; }
+  .portfolio-footer .footer-copy > p:first-child,
+  .portfolio-footer .footer-copy h2 { grid-column: 1 / -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
-
-/* Leadership copy fits the compact cards without increasing the carousel size. */
-#leadership .leadership-card-front > span:first-child { margin-bottom: 0.5rem; }
-#leadership .leadership-card-front > span:first-child img { width: 2rem; height: 2rem; }
-#leadership .leadership-card-front > .display-font { font-size: 1.4rem; margin-top: 0.5rem; }
-#leadership .leadership-card-organization { margin-top: 0.35rem; line-height: 1.4; }
-#leadership .leadership-card-description { font-size: 0.8125rem; line-height: 1.5; margin-top: 0.6rem; }
-#leadership .leadership-card-skills { margin-top: 0.6rem; font-size: 0.7rem; line-height: 1.45; }
