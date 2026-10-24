@@ -132,7 +132,7 @@ export function MiffyHead() {
     <div className="absolute inset-x-0 bottom-6 top-16" role="img" aria-label="A 3D Miffy-style bunny head that gently looks toward your cursor">
       {!ready && <img src={fallback.src} alt="" className="absolute bottom-0 left-1/2 w-[86%] -translate-x-1/2" />}
       <div ref={container} aria-hidden="true" className="pointer-events-none absolute inset-0" />
-      {ready && <><div aria-hidden="true" className="pointer-events-none absolute bottom-[8%] left-1/2 h-4 w-32 -translate-x-1/2 rounded-[50%] bg-[#667b9e]/15 blur-md" /><p className="absolute inset-x-0 bottom-0 text-center text-[0.65rem] uppercase tracking-[0.18em] text-[#747e90]">A little hello</p></>}
+      {ready && <><div aria-hidden="true" className="pointer-events-none absolute bottom-[8%] left-1/2 h-4 w-32 -translate-x-1/2 rounded-[50%] bg-[#667b9e]/15 blur-md" /></>}
     </div>
   );
 }

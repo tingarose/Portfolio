@@ -182,9 +182,9 @@ export default function Home() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[#8a9bb8]/40 bg-white/80 px-4 py-2 text-sm font-semibold text-[#343741] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
+                className="inline-flex self-center items-center gap-1.5 rounded-md border border-black/10 bg-transparent px-3 py-1.5 text-xs font-medium text-[#676b75] transition-colors hover:bg-white/60 hover:text-[#343741] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
               >
-                <FileTextIcon className="size-4" aria-hidden="true" />
+                <FileTextIcon className="size-3.5" aria-hidden="true" />
                 Resume
               </a>
               <a
@@ -394,9 +394,9 @@ export default function Home() {
           <div className="footer-copy">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#74766f]">One more thing</p>
             <h2 className="display-font mt-4 text-5xl italic tracking-[-0.04em] sm:text-6xl">More about me</h2>
-            <p className="mt-5 text-sm leading-6 text-[#70726d]">I’m involved in WE Lead (Women’s Entrepreneurial Leadership Program), BMES, and Bioengage. I also studied abroad with Engineering Japan in summer 2024 and volunteered at Kaiser Permanente Capitol Hill in 2023.</p>
+            <p className="mt-5 text-sm leading-6 text-[#70726d]">I’m involved in WE Lead (Women’s Entrepreneurial Leadership Program), the Biomedical Engineering Society (BMES), and Bioengage. I also studied abroad with Engineering Japan in summer 2024 and volunteered at Kaiser Permanente Capitol Hill in 2023.</p>
 
-            <p className="mt-5 text-sm leading-7 text-[#70726d]">Away from projects, you’ll find me painting, playing video games or board games, cooking, singing, or on the pickleball court.</p>
+            <p className="mt-5 text-sm leading-7 text-[#70726d]">Away from projects, you’ll find me painting, playing video games or board games, cooking, singing, or on the pickleball court!</p>
           </div>
           <div className="footer-folder flex justify-center">
             <InteractiveFolder />

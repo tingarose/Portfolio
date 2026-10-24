@@ -53,10 +53,14 @@ export const projectDetails = [
 export const researchExperience = [
   {
     title: 'Drug delivery & biomaterials',
+    role: 'Research Assistant',
+    organization: 'Stayton Lab · University of Washington',
     text: 'Developed and iterated eight-point standard curves and four QC levels for quantitative drug-delivery assays. Optimized dilution schemes and sample volumes, analyzed assay performance, and redesigned protocols to improve data quality. Partnered with graduate researchers to troubleshoot workflows, evaluate results, and plan next-step experiments.',
   },
   {
     title: 'Biomedical software',
+    role: 'Biomedical Engineering Intern',
+    organization: 'BioSyft',
     text: 'Troubleshot bugs in biomedical data workflows and used AI-assisted coding tools to develop and integrate software improvements. Worked with an engineering team to test fixes, document issues, and iterate on research and data-analysis features, using GitHub for version control and collaboration.',
   },
 ];
@@ -77,7 +81,7 @@ export const leadershipExperience = [
     skills: ['Making technical ideas accessible', 'Content planning & team coordination'],
   },
   {
-    title: 'Secretary',
+    title: 'Product Manager',
     organization: 'Pup Support',
     metric: '5+ events annually · 95% on-time completion',
     text: 'Coordinated events across four departmental teams, organized timelines and status reports, and delegated responsibilities to 10+ team members.',
