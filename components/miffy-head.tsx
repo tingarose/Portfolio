@@ -6,6 +6,7 @@ import fallback from '../images/bigivymiffy.png';
 export function MiffyHead() {
   const container = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
     const host = container.current;
@@ -19,6 +20,7 @@ export function MiffyHead() {
       try {
         renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       } catch {
+        setUnavailable(true);
         return;
       }
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -65,6 +67,7 @@ export function MiffyHead() {
       let frame = 0;
       let last = 0;
       let visible = true;
+      let painted = false;
       const render = (now: number) => {
         frame = 0;
         if (!visible || document.hidden) return;
@@ -73,6 +76,10 @@ export function MiffyHead() {
         head.rotation.x += (target.x - head.rotation.x) * blend;
         head.rotation.y += (target.y - head.rotation.y) * blend;
         renderer.render(scene, camera);
+        if (!painted) {
+          painted = true;
+          setReady(true);
+        }
         if (Math.abs(target.x - head.rotation.x) + Math.abs(target.y - head.rotation.y) > 0.0001) {
           frame = requestAnimationFrame(render);
         }
@@ -86,14 +93,16 @@ export function MiffyHead() {
         target.x = THREE.MathUtils.clamp((event.clientY - rect.top - rect.height / 2) / (window.innerHeight / 2), -1, 1) * 0.28;
         wake();
       };
-      const resize = new ResizeObserver(() => {
+      const updateSize = () => {
         const { width, height } = host.getBoundingClientRect();
         if (!width || !height) return;
         renderer.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         wake();
-      });
+      };
+      updateSize();
+      const resize = new ResizeObserver(updateSize);
       const observer = new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
         if (visible) wake();
@@ -105,7 +114,6 @@ export function MiffyHead() {
       document.documentElement.addEventListener('pointerleave', reset);
       document.addEventListener('visibilitychange', wake);
       preference.addEventListener('change', reset);
-      setReady(true);
       wake();
       cleanup = () => {
         cancelAnimationFrame(frame);
@@ -123,15 +131,15 @@ export function MiffyHead() {
         renderer.dispose();
         renderer.domElement.remove();
       };
-    }).catch(() => { /* Keep the illustration when WebGL is unavailable. */ });
+    }).catch(() => { if (!disposed) setUnavailable(true); });
 
     return () => { disposed = true; cleanup(); };
   }, []);
 
   return (
     <div className="absolute inset-x-0 bottom-6 top-16" role="img" aria-label="A 3D Miffy-style bunny head that gently looks toward your cursor">
-      {!ready && <img src={fallback.src} alt="" className="absolute bottom-0 left-1/2 w-[86%] -translate-x-1/2" />}
-      <div ref={container} aria-hidden="true" className="pointer-events-none absolute inset-0" />
+      {unavailable && <img src={fallback.src} alt="" className="absolute bottom-0 left-1/2 w-[86%] -translate-x-1/2" />}
+      <div ref={container} aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ opacity: ready ? 1 : 0 }} />
       {ready && <><div aria-hidden="true" className="pointer-events-none absolute bottom-[8%] left-1/2 h-4 w-32 -translate-x-1/2 rounded-[50%] bg-[#667b9e]/15 blur-md" /></>}
     </div>
   );
