@@ -33,6 +33,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <p className="mt-6 max-w-2xl text-lg leading-8 text-[#676b75]">{project.summary}</p>
       </header>
 
+      <section aria-labelledby="process-heading" className="mb-8 grid gap-8 rounded-[2rem] border border-black/[0.07] bg-white/65 p-7 sm:p-10 md:grid-cols-[0.65fr_1.35fr]">
+        <h2 id="process-heading" className="display-font text-4xl italic">Design & process</h2>
+        <ul className="space-y-6">
+          {project.details.map((detail, index) => <li key={detail} className="flex gap-4 text-base leading-7 text-[#676b75]"><span className="pt-1 font-mono text-xs text-[#8498bd]">{String(index + 1).padStart(2, '0')}</span><span>{detail}</span></li>)}
+        </ul>
+      </section>
+
       {project.slug === 'infantlift' && <section aria-label="InfantLift demonstration" className="overflow-hidden rounded-[2rem] bg-[#22242a]">
         <video controls playsInline preload="none" poster="/projects/infantlift-cover.jpg" aria-label="InfantLift demonstration video" className="aspect-video w-full">
           <source src="/projects/infantlift-demo.mp4" type="video/mp4" />
@@ -48,8 +55,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </a>
       </section>}
 
-      {images.length > 0 && <section aria-label={`${project.title} gallery`} className="space-y-8">
-        {images.map((image, index) => <figure key={image.src} className="overflow-hidden rounded-[2rem] border border-black/[0.07] bg-white/75 p-4 sm:p-7">
+      {images.length > 0 && <section aria-label={`${project.title} gallery`} className={project.slug === 'assistive-wrist-brace' ? 'mb-10 grid gap-8 sm:grid-cols-2' : 'mb-10 space-y-8'}>
+        {images.map((image, index) => <figure key={image.src} className={`overflow-hidden rounded-[2rem] border border-black/[0.07] bg-white/75 p-4 sm:p-7 ${project.slug === 'assistive-wrist-brace' && index === 0 ? 'sm:col-span-2' : ''}`}>
           <a href={image.src} target="_blank" rel="noopener noreferrer" aria-label={`View full image: ${image.alt} (opens in a new tab)`}>
             <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading={index === 0 ? 'eager' : 'lazy'} className="max-h-[38rem] w-full rounded-xl object-contain" />
           </a>
@@ -57,12 +64,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </figure>)}
       </section>}
 
-      <section aria-labelledby="process-heading" className="my-14 grid gap-8 rounded-[2rem] border border-black/[0.07] bg-white/65 p-7 sm:p-10 md:grid-cols-[0.65fr_1.35fr]">
-        <h2 id="process-heading" className="display-font text-4xl italic">Design & process</h2>
-        <ul className="space-y-6">
-          {project.details.map((detail, index) => <li key={detail} className="flex gap-4 text-base leading-7 text-[#676b75]"><span className="pt-1 font-mono text-xs text-[#8498bd]">{String(index + 1).padStart(2, '0')}</span><span>{detail}</span></li>)}
-        </ul>
-      </section>
       <footer className="flex flex-wrap justify-between gap-5 border-t border-black/10 pt-7 text-sm text-[#5c6d8c]">
         <a href="/#engineering" className="hover:underline">← All projects</a>
         <a href={`/projects/${next.slug}`} className="hover:underline">Next: {next.title} →</a>
