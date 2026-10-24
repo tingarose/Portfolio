@@ -76,7 +76,7 @@ const engineeringProjects = projectDetails.map((project, index) => ({
 const socialNavItems = [
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/ivy-lee13',
+    href: 'https://www.linkedin.com/in/ivy-leee/',
     Icon: FaLinkedin,
   },
   { label: 'Résumé', href: '/resume.pdf', Icon: FileTextIcon },
@@ -157,7 +157,7 @@ export default function Home() {
         <section id="hero" className="relative mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:px-10 lg:gap-20 lg:px-14">
           <div className="relative z-10 max-w-xl">
             <p className="mb-6 inline-flex items-center rounded-full border border-black/10 bg-white/65 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#666a75] shadow-sm backdrop-blur">
-              Engineer · builder · human
+              Engineer · builder · Innovator
             </p>
             <h1 className="display-font text-[clamp(3.75rem,8vw,7.25rem)] font-normal italic leading-[0.88] tracking-[-0.055em] text-[#202228]">
               Hi, I&apos;m Ivy.
@@ -177,6 +177,15 @@ export default function Home() {
               >
                 See my work
                 <ArrowDownRightIcon className="size-4" aria-hidden="true" />
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-[#8a9bb8]/40 bg-white/80 px-4 py-2 text-sm font-semibold text-[#343741] transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]"
+              >
+                <FileTextIcon className="size-4" aria-hidden="true" />
+                Resume
               </a>
               <a
                 href="#about"
@@ -341,8 +350,8 @@ export default function Home() {
           aria-labelledby="leadership-heading"
           className="scroll-chapter mx-auto w-full max-w-7xl scroll-mt-20 px-6 py-24 md:px-10 lg:px-14 lg:py-32"
         >
-          <div className="rounded-[2.75rem] border border-black/[0.07] bg-white/55 px-4 py-9 shadow-[0_30px_90px_rgba(73,78,94,0.09)] backdrop-blur sm:px-8 sm:py-12 lg:px-12">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="leadership-layout rounded-[2.75rem] border border-black/[0.07] bg-white/55 px-4 py-9 shadow-[0_30px_90px_rgba(73,78,94,0.09)] backdrop-blur sm:px-8 sm:py-12 lg:px-12">
+            <div className="leadership-intro flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#747985]">03 · People & teams</p>
                 <h2

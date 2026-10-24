@@ -280,7 +280,7 @@ export function LeadershipCarousel() {
               }}
               aria-label={`Show slide ${index + 1}: ${slide.title}`}
               aria-current={isSelected ? 'true' : undefined}
-              className="absolute inset-0 block cursor-pointer rounded-2xl border border-white/90 p-0 shadow-[0_22px_55px_rgba(57,67,98,0.2)] outline-none [transform-style:preserve-3d] focus-visible:ring-4 focus-visible:ring-[#315fca]/35"
+              className="absolute inset-0 block cursor-pointer rounded-2xl border border-white/90 p-0 outline-none [transform-style:preserve-3d] focus-visible:ring-4 focus-visible:ring-[#315fca]/35"
               style={{
                 opacity: isSelected && !isDragging && !isSpinning ? 0 : 1,
                 transform: `rotateY(${index * anglePerSlide}deg) translateZ(var(--leadership-depth, clamp(13rem, 28vw, 22rem)))`,
@@ -296,7 +296,7 @@ export function LeadershipCarousel() {
 
       {!isDragging && !isSpinning && (
         <div aria-hidden="true" className="leadership-readable pointer-events-none absolute inset-0 grid place-items-center">
-          <div className="leadership-readable-card relative rounded-2xl border border-white bg-[#fffdfa] shadow-[0_16px_40px_rgba(57,67,98,0.14)]">
+          <div className="leadership-readable-card relative rounded-2xl border border-white bg-[#fffdfa]">
             <LeadershipCardContent slide={leadershipSlides[selectedIndex]} index={selectedIndex} />
           </div>
         </div>

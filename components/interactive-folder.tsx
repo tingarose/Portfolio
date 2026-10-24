@@ -83,7 +83,7 @@ function usePaperTexture() {
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.font = '600 52px Arial, sans-serif';
-    context.fillText("i don't know", 0, 0);
+    context.fillText('coming soon', 0, 0);
     context.restore();
 
     const paperTexture = new THREE.CanvasTexture(canvas);
