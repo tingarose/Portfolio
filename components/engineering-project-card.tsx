@@ -9,11 +9,12 @@ type EngineeringProjectCardProps = {
   imageBackground: string;
   gallery?: Array<{ src: string; alt: string; width: number; height: number }>;
   videoSrc?: string;
+  videoPoster?: string;
 };
 
 export function EngineeringProjectCard({
   title, summary, href, imageSrc, imageWidth, imageHeight, alt,
-  imageBackground, gallery, videoSrc,
+  imageBackground, gallery, videoSrc, videoPoster,
 }: EngineeringProjectCardProps) {
   const displayedImage = gallery?.[0];
 
@@ -25,7 +26,8 @@ export function EngineeringProjectCard({
             <video
               controls
               playsInline
-              preload="metadata"
+              preload="none"
+              poster={videoPoster}
               aria-label={`${title} demonstration video`}
               className="aspect-video w-full object-contain"
             >

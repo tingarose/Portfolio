@@ -32,7 +32,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       </header>
 
       {project.slug === 'infantlift' && <section aria-label="InfantLift demonstration" className="overflow-hidden rounded-[2rem] bg-[#22242a]">
-        <video controls playsInline preload="none" aria-label="InfantLift demonstration video" className="aspect-video w-full">
+        <video controls playsInline preload="none" poster="/projects/infantlift-cover.jpg" aria-label="InfantLift demonstration video" className="aspect-video w-full">
           <source src="/projects/infantlift-demo.mp4" type="video/mp4" />
           <a href="/projects/infantlift-demo.mp4">Open the InfantLift demonstration video</a>
         </video>

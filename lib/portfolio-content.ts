@@ -64,22 +64,30 @@ export const researchExperience = [
 export const leadershipExperience = [
   {
     title: 'Co-President',
+    organization: 'Endozene – Bioengineers without Borders',
     metric: '20+ students · 5+ clinical stakeholders',
-    text: 'Led undergraduate students through ideation, needs-finding, and concept evaluation to prioritize women’s health solutions. Translated clinician and healthcare-professional feedback into requirements, and coordinated strategy, timelines, and cross-functional workstreams toward validation and prototyping.',
+    text: 'Led a student team developing women’s health solutions, translating clinical feedback into design requirements and coordinating validation and prototyping.',
+    skills: ['User needs → design requirements', 'Team leadership & project planning'],
   },
   {
     title: 'Social Media Manager',
-    metric: 'Research · outreach · team coordination',
-    text: 'Researched and produced technical and educational content for the International Genetically Engineered Machine competition, where student teams develop biological systems to address real-world problems. Translated complex biology for diverse audiences and facilitated weekly meetings, task delegation, and progress tracking across research, outreach, and design teams.',
+    organization: 'iGEM',
+    metric: 'Science communication · outreach',
+    text: 'Created accessible synthetic-biology content for iGEM, the International Genetically Engineered Machine competition, and coordinated research, outreach, and design.',
+    skills: ['Making technical ideas accessible', 'Content planning & team coordination'],
   },
   {
     title: 'Secretary',
+    organization: 'Pup Support',
     metric: '5+ events annually · 95% on-time completion',
-    text: 'Oversaw event planning and implementation across four departmental teams. Established timelines, prepared status reports, and delegated responsibilities to 10+ team members. Improved procedures, tracked mission-aligned outcomes, and evaluated audience impact.',
+    text: 'Coordinated events across four departmental teams, organized timelines and status reports, and delegated responsibilities to 10+ team members.',
+    skills: ['Event operations & delegation', 'Clear communication & follow-through'],
   },
   {
     title: 'Teaching Assistant',
-    metric: 'Learning with others',
-    text: 'Teaching Assistant for BIOEN 440 Biomechanics (Autumn 2026). Involved in WE Lead (Women’s Entrepreneurial Leadership Program), the Biomedical Engineering Society (BMES), and Bioengage. Participated in Engineering Japan study abroad (Summer 2024) and volunteered at Kaiser Permanente Capitol Hill (2023).',
+    organization: 'BIOEN 440 · Biomechanics',
+    metric: 'Autumn 2026 · Weekly project feedback',
+    text: 'Support biomechanics students through weekly class meetings, providing feedback on their final projects as they develop and refine their engineering work.',
+    skills: ['Technical feedback & mentorship', 'Explaining biomechanics clearly'],
   },
 ];

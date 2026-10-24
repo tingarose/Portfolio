@@ -18,6 +18,7 @@ import {
   MoveHorizontalIcon,
 } from 'lucide-react';
 import { FaLinkedin } from 'react-icons/fa6';
+import { SiTiktok } from 'react-icons/si';
 import { AboutSection } from '@/components/about-section';
 import { EngineeringProjectCard } from '@/components/engineering-project-card';
 import { InteractiveFolder } from '@/components/interactive-folder';
@@ -256,6 +257,7 @@ export default function Home() {
                   imageBackground={projectImages[project.title] ? 'bg-[#f2f1ee]' : project.imageBackground}
                   gallery={projectImages[project.title]}
                   videoSrc={project.title === 'InfantLift' ? '/projects/infantlift-demo.mp4' : undefined}
+                  videoPoster={project.title === 'InfantLift' ? '/projects/infantlift-cover.jpg' : undefined}
                 />
               ))}
             </div>
@@ -290,11 +292,12 @@ export default function Home() {
                 <span className="rounded-full bg-[#f2e1e7] px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#7a5966]">PM</span>
                 <span className="text-xs text-[#838690]">Featured study</span>
               </div>
-              <div className="mt-6 grid min-h-[25rem] items-center gap-6 overflow-hidden rounded-[1.75rem] bg-[#f6dfe5] px-6 pt-8 sm:grid-cols-[0.9fr_1.1fr] sm:px-10">
+              <div className="relative mt-6 grid min-h-[25rem] items-center gap-6 overflow-hidden rounded-[1.75rem] bg-[#f6dfe5] px-6 pt-8 sm:grid-cols-[0.9fr_1.1fr] sm:px-10">
                 <div className="self-center pb-8">
                   <h3 className="display-font text-4xl italic tracking-[-0.03em] sm:text-5xl">Learning, made engaging.</h3>
                   <p className="mt-4 max-w-xs text-sm leading-6 text-[#6e6267]">Researched streaks, stats, and gamification across 3+ core experiences, translating student pain points into features and UX recommendations.</p>
                   <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#75686d]">User surveys · product research · UX</p>
+                  <a href="/growth" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#6e4f5d] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#533b46] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#315fca]">Explore my growth work <span aria-hidden="true">↗</span></a>
                 </div>
                 <img
                   data-scroll-depth="-0.05" src={dinosaurMiffy.src}
@@ -303,6 +306,7 @@ export default function Home() {
                   height={dinosaurMiffy.height}
                   className="mx-auto mt-auto h-auto max-h-[22rem] w-full object-contain transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.02]"
                 />
+                <a href="https://www.tiktok.com/@ivytings" target="_blank" rel="noopener noreferrer" aria-label="View Ivy’s TikTok (opens in a new tab)" title="TikTok" className="absolute bottom-3 right-3 flex size-9 items-center justify-center rounded-full text-[#75686d] transition-colors hover:bg-white/60 hover:text-[#343741] focus-visible:outline-2 focus-visible:outline-[#315fca]"><SiTiktok aria-hidden="true" className="size-4" /></a>
               </div>
             </article>
 
@@ -316,7 +320,7 @@ export default function Home() {
               <article className="relative min-h-[17rem] overflow-hidden rounded-[2.25rem] border border-black/[0.07] bg-white/70 p-7 shadow-[0_20px_60px_rgba(73,78,94,0.07)]">
                 <p className="relative z-10 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[#747985]">Growth</p>
                 <h3 className="display-font relative z-10 mt-5 text-4xl italic tracking-[-0.03em]">A plan for growth.</h3>
-                <p className="relative z-10 mt-4 pb-36 text-sm leading-6 text-[#676b75]">Built a 13-week back-to-school growth plan with a three-post-per-week cadence across social, email, blog, and product channels.</p>
+                <p className="relative z-10 mt-4 pb-36 text-sm leading-6 text-[#676b75]">Quickly learned marketing and growth while creating around 30 videos for Wick. Developed scripting, short-form storytelling, editing, and audience research skills alongside a 13-week back-to-school content plan.</p>
                 <img
                   data-scroll-depth="-0.035" src={peekingMiffy.src}
                   alt="Miffy peeking into the growth card"
@@ -378,7 +382,8 @@ export default function Home() {
           <div data-scroll-reveal className="max-w-sm text-center md:text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#74766f]">One more thing</p>
             <h2 className="display-font mt-4 text-5xl italic tracking-[-0.04em] sm:text-6xl">More about me</h2>
-            <p className="mt-5 text-sm leading-6 text-[#70726d]">Hover over the folder to take a peek inside.</p>
+            <p className="mt-5 text-sm leading-6 text-[#70726d]">I’m involved in WE Lead (Women’s Entrepreneurial Leadership Program), BMES, and Bioengage. I also studied abroad with Engineering Japan in summer 2024 and volunteered at Kaiser Permanente Capitol Hill in 2023.</p>
+
             <p className="mt-5 text-sm leading-7 text-[#70726d]">Away from projects, you’ll find me painting, playing video games or board games, cooking, singing, or on the pickleball court.</p>
           </div>
           <div data-scroll-depth="-0.09" className="flex justify-center md:justify-end">

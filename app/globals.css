@@ -177,3 +177,11 @@ nav a[aria-current='location'] {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Leadership copy fits the compact cards without increasing the carousel size. */
+#leadership .leadership-card-front > span:first-child { margin-bottom: 0.5rem; }
+#leadership .leadership-card-front > span:first-child img { width: 2rem; height: 2rem; }
+#leadership .leadership-card-front > .display-font { font-size: 1.4rem; margin-top: 0.5rem; }
+#leadership .leadership-card-organization { margin-top: 0.35rem; line-height: 1.4; }
+#leadership .leadership-card-description { font-size: 0.8125rem; line-height: 1.5; margin-top: 0.6rem; }
+#leadership .leadership-card-skills { margin-top: 0.6rem; font-size: 0.7rem; line-height: 1.45; }

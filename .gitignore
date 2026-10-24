@@ -37,3 +37,8 @@ next-env.d.ts
 /outputs/
 /work/
 *.tsbuildinfo
+
+# Original growth media; optimized website copies live in public/growth
+/images/*.mp4
+/images/*.mov
+/images/*.zip

@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import aboutMeMiffy from '../images/aboutmemiffy.png';
 
 const cloudPlacements = [
-  'left-[7%] top-[22%] w-24 sm:left-[12%] sm:w-32 lg:w-40',
-  'left-1/2 top-[12%] hidden w-28 -ml-14 sm:block lg:-ml-20 lg:w-40',
-  'right-[7%] top-[24%] w-24 sm:right-[12%] sm:w-32 lg:w-40',
-  'bottom-[20%] left-[11%] hidden w-32 sm:block lg:left-[15%] lg:w-40',
-  'bottom-[19%] right-[8%] w-24 sm:right-[13%] sm:w-32 lg:w-40',
+  { word: 'Curious', placement: 'left-[3%] top-[4%] w-28 md:top-[18%] md:w-36 lg:left-[8%]' },
+  { word: 'Creative', placement: 'right-[3%] top-[4%] w-28 md:top-[18%] md:w-36 lg:right-[8%]' },
+  { word: 'Empathetic', placement: 'bottom-[3%] left-[3%] w-28 md:bottom-[18%] md:w-36 lg:left-[8%]' },
+  { word: 'Driven', placement: 'bottom-[3%] right-[3%] w-28 md:bottom-[18%] md:w-36 lg:right-[8%]' },
 ];
 
 export function AboutSection() {
@@ -106,13 +105,12 @@ export function AboutSection() {
         className="absolute inset-x-6 inset-y-10 z-0 rounded-[3rem] border border-white/75 bg-white/45 shadow-[0_30px_90px_rgba(73,78,94,0.08)] backdrop-blur-sm md:inset-x-10 lg:inset-x-14"
       />
 
-      {cloudPlacements.map((placement, index) => (
+      {cloudPlacements.map(({ word, placement }, index) => (
         <div
-          key={placement}
+          key={word}
           ref={(element) => {
             cloudRefs.current[index] = element;
           }}
-          aria-hidden="true"
           className={`pointer-events-none absolute z-[1] text-[#8994aa] ${placement} motion-reduce:transition-none`}
           style={{
             opacity: hasEntered ? 1 : 0,
@@ -125,15 +123,18 @@ export function AboutSection() {
             willChange: 'transform, opacity',
           }}
         >
-          <svg viewBox="0 0 160 100" fill="none" className="block h-auto w-full" focusable="false">
+          <svg role="img" aria-label={word} viewBox="0 0 160 100" fill="none" className="block h-auto w-full" focusable="false">
             <path
               d="M39 76C23 76 13 66 13 53C13 40 23 30 36 30C40 17 51 10 64 13C73 2 90 3 100 12C111 11 122 19 124 31C138 32 148 42 148 55C148 67 138 76 124 76Z"
+              fill="#fffdfb"
+              fillOpacity="0.85"
               stroke="currentColor"
               strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
             />
+            <text x="80" y="48" textAnchor="middle" dominantBaseline="middle" fill="#5c6d8c" fontSize="20" fontWeight="500">{word}</text>
           </svg>
         </div>
       ))}
@@ -156,9 +157,8 @@ export function AboutSection() {
           className="mt-4 h-auto w-36 sm:w-44"
         />
         <p className="mt-5 max-w-sm text-base leading-7 text-[#6f727c] sm:text-lg">
-          I’m a user-centered bioengineer focused on medical device design. I turn ideas into tested prototypes through research, iterative design, and performance evaluation—with the people using them at the center.
+          I’m a bioengineer who turns real needs into thoughtful medical devices through research, prototyping, and testing. I bring curiosity, empathy, and creative problem-solving to the teams and people I work with.
         </p>
-        <p className="mt-4 max-w-sm text-sm leading-6 text-[#6f727c]">I enjoy connecting technical work with real needs and bringing cross-functional teams and diverse stakeholders together around a shared direction.</p>
       </div>
     </section>
   );

@@ -271,7 +271,14 @@ export function LeadershipCarousel() {
                 </span>
                 <span className="text-[0.65rem] font-semibold uppercase leading-5 tracking-[0.12em] text-[#5c6d8c]">{slide.metric}</span>
                 <span className="display-font mt-3 text-[1.85rem] italic leading-tight text-[#343741]">{slide.title}</span>
+                <span className="leadership-card-organization mt-2 text-xs font-semibold leading-5 text-[#5c6d8c]">{slide.organization}</span>
                 <span className="leadership-card-description mt-4 text-sm font-normal leading-6 text-[#676b75]">{slide.text}</span>
+                <span className="leadership-card-skills mt-3 text-xs leading-5 text-[#5c6d8c]">
+                  <span className="font-semibold">Skills developed</span>
+                  <span role="list" className="mt-1 block space-y-1">
+                    {slide.skills.map((skill) => <span role="listitem" key={skill} className="block">• {skill}</span>)}
+                  </span>
+                </span>
               </span>
               <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl bg-[#e7eef9] p-12 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                 <img src={slide.image.src} alt="" draggable={false} width={slide.image.width} height={slide.image.height} className="h-auto w-full object-contain opacity-80" />
