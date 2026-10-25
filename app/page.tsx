@@ -196,7 +196,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div data-scroll-depth="0.08" className="hero-art relative mx-auto w-full max-w-[35rem]">
+          <div data-scroll-depth="0.08" className="hero-art hidden md:block relative mx-auto w-full max-w-[35rem]">
             <div className="relative aspect-[5/6] overflow-hidden rounded-[3rem] border border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.88),rgba(208,226,255,0.78))] shadow-[0_35px_90px_rgba(72,91,128,0.18)]">
               <div className="absolute inset-x-6 top-6 flex items-center justify-between text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-[#646b79] sm:inset-x-8 sm:top-8">
                 <span>Portfolio</span>
@@ -363,7 +363,7 @@ export default function Home() {
               </div>
               <p className="flex items-center gap-2 text-sm text-[#737681]">
                 <MoveHorizontalIcon className="size-4" aria-hidden="true" />
-                Drag the loop to explore
+                <span className="md:hidden">Swipe or use the arrows</span><span className="hidden md:inline">Drag the loop to explore</span>
               </p>
             </div>
             <div className="mt-3">
@@ -392,11 +392,15 @@ export default function Home() {
       <footer className="portfolio-footer border-t border-black/[0.07] bg-[#ebeae5]">
         <div className="footer-overview mx-auto grid w-full max-w-6xl items-center gap-6 px-6 py-6 md:px-10">
           <div className="footer-copy">
+            <div className="footer-heading">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#74766f]">One more thing</p>
             <h2 className="display-font mt-4 text-5xl italic tracking-[-0.04em] sm:text-6xl">More about me</h2>
+            </div>
+            <div className="footer-bio">
             <p className="mt-5 text-sm leading-6 text-[#70726d]">I’m involved in WE Lead (Women’s Entrepreneurial Leadership Program), the Biomedical Engineering Society (BMES), and Bioengage. I also studied abroad with Engineering Japan in summer 2024 and volunteered at Kaiser Permanente Capitol Hill in 2023.</p>
 
             <p className="mt-5 text-sm leading-7 text-[#70726d]">Away from projects, you’ll find me painting, playing video games or board games, cooking, singing, or on the pickleball court!</p>
+            </div>
           </div>
           <div className="footer-folder flex justify-center">
             <InteractiveFolder />

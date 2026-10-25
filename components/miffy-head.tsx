@@ -2,8 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import fallback from '../images/bigivymiffy.png';
+import { useDesktopLayout } from '@/hooks/use-desktop-layout';
 
 export function MiffyHead() {
+  const desktop = useDesktopLayout();
+  return desktop ? <MiffyScene /> : null;
+}
+
+function MiffyScene() {
   const container = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [unavailable, setUnavailable] = useState(false);

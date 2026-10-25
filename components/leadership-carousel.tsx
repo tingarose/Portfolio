@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { leadershipExperience } from '@/lib/portfolio-content';
+import { useDesktopLayout } from '@/hooks/use-desktop-layout';
 
 import technicalMiffyOne from '../images/technicalmiffy1.png';
 import technicalMiffyTwo from '../images/technicalmiffy2.png';
@@ -54,7 +55,7 @@ function LeadershipCardContent({ slide, index }: { slide: (typeof leadershipSlid
   );
 }
 
-export function LeadershipCarousel() {
+function DesktopLeadershipCarousel() {
   const initialRotation = 0;
   const [rotationAngle, setRotationAngle] = React.useState(initialRotation);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -63,6 +64,8 @@ export function LeadershipCarousel() {
   const angularVelocity = React.useRef(0);
   const animationFrame = React.useRef<number | null>(null);
   const pointerStartX = React.useRef<number | null>(null);
+  const pointerStartY = React.useRef<number | null>(null);
+  const horizontalDrag = React.useRef(false);
   const previousPointerX = React.useRef<number | null>(null);
   const previousPointerTime = React.useRef(0);
   const didDrag = React.useRef(false);
@@ -178,12 +181,13 @@ export function LeadershipCarousel() {
 
     cancelSpin();
     pointerStartX.current = event.clientX;
+    pointerStartY.current = event.clientY;
+    horizontalDrag.current = false;
     previousPointerX.current = event.clientX;
     previousPointerTime.current = performance.now();
     angularVelocity.current = 0;
     didDrag.current = false;
-    setIsDragging(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsDragging(false);
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -194,8 +198,19 @@ export function LeadershipCarousel() {
       return;
     }
 
-    const currentTime = performance.now();
     const distance = event.clientX - pointerStartX.current;
+    const verticalDistance = event.clientY - (pointerStartY.current ?? event.clientY);
+    if (!horizontalDrag.current) {
+      if (Math.max(Math.abs(distance), Math.abs(verticalDistance)) < 8) return;
+      if (Math.abs(verticalDistance) > Math.abs(distance)) {
+        handlePointerCancel();
+        return;
+      }
+      horizontalDrag.current = true;
+      setIsDragging(true);
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+    const currentTime = performance.now();
     const pointerDelta = event.clientX - previousPointerX.current;
     const timeDelta = Math.max(currentTime - previousPointerTime.current, 1);
     const angleDelta = pointerDelta * 0.25;
@@ -219,6 +234,8 @@ export function LeadershipCarousel() {
         ? 0
         : angularVelocity.current;
     pointerStartX.current = null;
+    pointerStartY.current = null;
+    horizontalDrag.current = false;
     previousPointerX.current = null;
     setIsDragging(false);
 
@@ -235,9 +252,13 @@ export function LeadershipCarousel() {
 
   const handlePointerCancel = () => {
     pointerStartX.current = null;
+    pointerStartY.current = null;
+    horizontalDrag.current = false;
     previousPointerX.current = null;
     didDrag.current = false;
     setIsDragging(false);
+    cancelSpin();
+    commitRotation(Math.round(rotationAngleRef.current / anglePerSlide) * anglePerSlide);
   };
 
   return (
@@ -251,7 +272,8 @@ export function LeadershipCarousel() {
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerCancel}
-      className="leadership-carousel relative h-[43rem] w-full touch-pan-y cursor-grab select-none overflow-visible rounded-[2rem] outline-none [perspective:1800px] [transform-style:preserve-3d] active:cursor-grabbing focus-visible:ring-4 focus-visible:ring-[#315fca]/30 sm:h-[40rem] lg:h-[41rem]"
+      onLostPointerCapture={() => { if (pointerStartX.current !== null) handlePointerCancel(); }}
+      className="leadership-desktop leadership-carousel relative h-[43rem] w-full touch-pan-y cursor-grab select-none overflow-visible rounded-[2rem] outline-none [perspective:1800px] [transform-style:preserve-3d] active:cursor-grabbing focus-visible:ring-4 focus-visible:ring-[#315fca]/30 sm:h-[40rem] lg:h-[41rem]"
     >
       <div
         className={`absolute left-1/2 top-1/2 h-[34rem] w-[17rem] sm:h-[30rem] sm:w-[23rem] [transform-style:preserve-3d] motion-reduce:transition-none ${
@@ -314,4 +336,43 @@ export function LeadershipCarousel() {
       </p>
     </div>
   );
+}
+
+
+function MobileLeadershipCarousel() {
+  const scroller = React.useRef<HTMLDivElement>(null);
+  const [active, setActive] = React.useState(0);
+  function navigate(index: number) {
+    const element = scroller.current;
+    const card = element?.children[index] as HTMLElement | undefined;
+    if (!element || !card) return;
+    element.scrollTo({ left: card.offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    setActive(index);
+  }
+  return (
+    <div className="leadership-mobile" role="region" aria-roledescription="carousel" aria-label="Leadership highlights">
+      <div ref={scroller} className="leadership-mobile-track" tabIndex={0} aria-label="Swipe horizontally through leadership roles"
+        onScroll={() => {
+          const element = scroller.current;
+          if (!element) return;
+          const second = element.children[1] as HTMLElement | undefined;
+          const step = second?.offsetLeft || element.clientWidth;
+          setActive(Math.max(0, Math.min(leadershipSlides.length - 1, Math.round(element.scrollLeft / step))));
+        }}>
+        {leadershipSlides.map((slide, index) => <article key={slide.title} className="leadership-mobile-card" role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${leadershipSlides.length}: ${slide.title}`}>
+          <LeadershipCardContent slide={slide} index={index} />
+        </article>)}
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <button type="button" onClick={() => navigate(active - 1)} disabled={active === 0} aria-label="Previous leadership role" className="min-h-11 rounded-full border border-[#8498bd]/40 px-4 text-sm text-[#5c6d8c] disabled:opacity-40">← Previous</button>
+        <span className="text-xs text-[#5c6d8c]" aria-live="polite">{active + 1} / {leadershipSlides.length}</span>
+        <button type="button" onClick={() => navigate(active + 1)} disabled={active === leadershipSlides.length - 1} aria-label="Next leadership role" className="min-h-11 rounded-full border border-[#8498bd]/40 px-4 text-sm text-[#5c6d8c] disabled:opacity-40">Next →</button>
+      </div>
+    </div>
+  );
+}
+
+export function LeadershipCarousel() {
+  const desktop = useDesktopLayout();
+  return desktop ? <DesktopLeadershipCarousel /> : <MobileLeadershipCarousel />;
 }

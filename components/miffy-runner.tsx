@@ -314,20 +314,25 @@ export function MiffyRunner() {
             </div>
           </div>}
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 px-6 pb-6 sm:px-8">
-          <p className="text-xs leading-5 text-[#737681]">Space / ↑ / tap: jump pastries · hold ↓ / S: duck under stars</p>
-          <div className="flex items-center gap-2">
+        <div className="runner-controls flex flex-wrap items-center justify-between gap-3 px-6 pb-6 sm:px-8">
+          <p className="text-xs leading-5 text-[#737681]"><span className="md:hidden">Tap Jump to jump. Hold Duck to crouch under stars.</span><span className="hidden md:inline">Space / ↑ / tap: jump pastries · hold ↓ / S: duck under stars</span></p>
+          <div className="runner-actions flex flex-wrap items-center gap-2">
+          <button type="button" aria-label="Start game or jump" className="runner-jump md:hidden touch-manipulation select-none rounded-full border border-[#8498bd]/40 bg-[#e4ecfa] px-4 py-3 text-sm font-semibold text-[#345076]"
+            onClick={() => { canvas.current?.focus({ preventScroll: true }); action.current(); }}
+          >Jump ↑</button>
           <button type="button" aria-pressed={soundOn} aria-label={soundOn ? 'Mute game sounds' : 'Enable game sounds'}
             onClick={() => {
               muted.current = !muted.current;
               setSoundOn(!muted.current);
               if (!muted.current) enableAudio.current();
             }}
-            className="rounded-full border border-[#8498bd]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#5c6d8c] hover:bg-white focus-visible:outline-2 focus-visible:outline-[#315fca]"
+            className="runner-sound rounded-full border border-[#8498bd]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#5c6d8c] hover:bg-white focus-visible:outline-2 focus-visible:outline-[#315fca]"
           >Sound {soundOn ? 'on' : 'off'}</button>
-          <button type="button" disabled={mode !== 'running'}
+          <button type="button" aria-label="Hold to duck under stars"
             onPointerDown={(event) => {
               event.preventDefault();
+              canvas.current?.focus({ preventScroll: true });
+              if (mode !== 'running') action.current();
               event.currentTarget.setPointerCapture(event.pointerId);
               duck.current = true;
             }}
@@ -337,17 +342,18 @@ export function MiffyRunner() {
             onKeyDown={(event) => {
               if ([' ', 'Enter', 'ArrowDown', 's', 'S'].includes(event.key)) {
                 event.preventDefault();
+                if (mode !== 'running') action.current();
                 duck.current = true;
               }
             }}
             onKeyUp={() => { duck.current = false; }}
             onBlur={() => { duck.current = false; }}
-            className="touch-none select-none rounded-full border border-[#8498bd]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#5c6d8c] active:bg-[#e9e8e4] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-[#315fca]"
+            className="runner-duck touch-none select-none rounded-full border border-[#8498bd]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#5c6d8c] active:bg-[#e9e8e4] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-[#315fca]"
           >Hold to duck ↓</button>
           <button type="button" onClick={() => {
             if (mode === 'running') pause.current();
             else { canvas.current?.focus({ preventScroll: true }); action.current(); }
-          }} className="rounded-full border border-[#8498bd]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#5c6d8c] hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#315fca]">
+          }} className="runner-toggle rounded-full border border-[#8498bd]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#5c6d8c] hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#315fca]">
             {mode === 'running' ? 'Pause' : mode === 'paused' ? 'Resume' : mode === 'over' ? 'Play again' : 'Let’s play'}
           </button>
           </div>

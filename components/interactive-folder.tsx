@@ -179,11 +179,11 @@ export function InteractiveFolder() {
     <div
       role="img"
       tabIndex={0}
-      aria-label="Interactive pink 3D folder labeled More about me; hover or focus to open it"
+      aria-label="Interactive pink 3D folder labeled More about me; tap, hover, or press Enter to open it"
       className="h-[24rem] w-full max-w-xl cursor-pointer rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-[#d971a0] focus-visible:ring-offset-4 focus-visible:ring-offset-[#ebeae5] sm:h-[28rem]"
-      onPointerEnter={() => setOpen(true)}
-      onPointerLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
+      onPointerEnter={(event) => { if (event.pointerType === 'mouse') setOpen(true); }}
+      onPointerLeave={(event) => { if (event.pointerType === 'mouse') setOpen(false); }}
+      onFocus={(event) => { if (event.currentTarget.matches(':focus-visible')) setOpen(true); }}
       onBlur={() => setOpen(false)}
       onClick={() => setOpen((current) => !current)}
       onKeyDown={(event) => {

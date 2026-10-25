@@ -139,7 +139,8 @@ nav a[aria-current='location'] {
 
 .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr); }
 .portfolio-footer .footer-copy h2 { margin-top: 0.4rem; font-size: 2rem; line-height: 1.15; }
-.portfolio-footer .footer-copy p:not(:first-child) { margin-top: 0.75rem; line-height: 1.65; }
+.portfolio-footer .footer-bio { display: grid; gap: 0.75rem; margin-top: 0.75rem; }
+.portfolio-footer .footer-bio p { margin: 0; line-height: 1.65; }
 .portfolio-footer [role='img'][tabindex] { width: 100%; max-width: 18rem; height: 15rem; }
 .portfolio-footer .miffy-runner { max-width: 56rem; padding-block: 1rem 1.5rem; }
 .miffy-runner > div > div:first-child { padding-top: 1rem; gap: 0.75rem; }
@@ -168,9 +169,7 @@ nav a[aria-current='location'] {
   .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 22rem; }
   .engineering-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #product-growth > div:nth-child(2) { grid-template-columns: 1.2fr 1fr; }
-  .portfolio-footer .footer-copy { display: grid; grid-template-columns: 1fr 1fr; column-gap: 2rem; }
-  .portfolio-footer .footer-copy > p:first-child,
-  .portfolio-footer .footer-copy h2 { grid-column: 1 / -1; }
+  .portfolio-footer .footer-bio { grid-template-columns: 1fr 1fr; column-gap: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -203,4 +202,41 @@ nav a[aria-current='location'] {
   #leadership .leadership-readable-card { width: min(22rem, 100%); height: 24rem; }
   #leadership .leadership-card-front > span:first-child img { width: 1.5rem; height: 1.5rem; }
   #leadership .leadership-card-front > .display-font { margin-top: 0.4rem; font-size: 1.35rem; }
+}
+
+
+/* Native phone carousel: no 3D layers, fixed heights, or touch pointer capture. */
+.leadership-mobile-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; touch-action: auto; scrollbar-width: thin; }
+.leadership-mobile-card { min-width: 0; scroll-snap-align: start; border: 1px solid #dedfe3; border-radius: 1rem; background: #fffdfa; }
+#leadership .leadership-mobile-card .leadership-card-front { position: static; height: auto; overflow: visible; backface-visibility: visible; }
+#leadership .leadership-mobile-card .leadership-card-description { font-size: 0.875rem; line-height: 1.55; }
+#leadership .leadership-mobile-card .leadership-card-skills { font-size: 0.75rem; line-height: 1.5; }
+@media (min-width: 768px) { .leadership-mobile { display: none; } }
+
+@media (max-width: 767px) {
+  #hero { grid-template-columns: 1fr; gap: 0; padding-block: 2.5rem; }
+  #hero .hero-art { display: none; }
+  #top > #about { min-height: 0; padding: 6rem 1rem; overflow: visible; }
+  #about .about-card { width: 100%; max-width: 28rem; padding: 1.25rem; }
+  #about .about-cloud { width: 7.5rem; margin: 0; z-index: 2; right: auto; }
+  #about .about-cloud:nth-child(2) { top: 0.5rem; bottom: auto; left: calc(25% - 3.75rem); }
+  #about .about-cloud:nth-child(3) { top: 0.5rem; bottom: auto; left: calc(75% - 3.75rem); }
+  #about .about-cloud:nth-child(4) { bottom: 0.5rem; top: auto; left: calc(25% - 3.75rem); }
+  #about .about-cloud:nth-child(5) { bottom: 0.5rem; top: auto; left: calc(75% - 3.75rem); }
+  #leadership .leadership-layout { padding: 0.75rem; }
+  .leadership-desktop { display: none; }
+  .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 8rem; gap: 0.75rem; align-items: center; }
+  .portfolio-footer .footer-copy { display: contents; }
+  .portfolio-footer .footer-heading { grid-column: 1; grid-row: 1; }
+  .portfolio-footer .footer-heading h2 { font-size: 1.7rem; }
+  .portfolio-footer .footer-folder { grid-column: 2; grid-row: 1; min-width: 0; }
+  .portfolio-footer .footer-folder [role='img'] { max-width: 9rem; height: 10rem; }
+  .portfolio-footer .footer-bio { grid-column: 1 / -1; grid-row: 2; margin-top: 0; }
+  .runner-controls { align-items: stretch; padding-inline: 1rem; }
+  .runner-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 0.5rem; }
+  .runner-actions button { min-width: 0; min-height: 2.75rem; padding-inline: 0.75rem; }
+  .runner-jump { order: 0; }
+  .runner-actions .runner-duck { order: 1; min-height: 3rem; background: #e4ecfa; font-size: 0.875rem; }
+  .runner-sound { order: 2; }
+  .runner-toggle { order: 3; }
 }
