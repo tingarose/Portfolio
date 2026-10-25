@@ -55,284 +55,134 @@ function LeadershipCardContent({ slide, index }: { slide: (typeof leadershipSlid
 }
 
 export function LeadershipCarousel() {
-  const initialRotation = 0;
-  const [rotationAngle, setRotationAngle] = React.useState(initialRotation);
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [isSpinning, setIsSpinning] = React.useState(false);
-  const rotationAngleRef = React.useRef(initialRotation);
-  const angularVelocity = React.useRef(0);
-  const animationFrame = React.useRef<number | null>(null);
-  const pointerStartX = React.useRef<number | null>(null);
-  const pointerStartY = React.useRef<number | null>(null);
-  const horizontalDrag = React.useRef(false);
-  const previousPointerX = React.useRef<number | null>(null);
-  const previousPointerTime = React.useRef(0);
+  const rotor = React.useRef<HTMLDivElement>(null);
+  const angle = React.useRef(0);
+  const motionFrame = React.useRef<number | null>(null);
+  const dragFrame = React.useRef<number | null>(null);
+  const gesture = React.useRef<{ id: number; x: number; y: number; lastX: number; time: number; velocity: number; active: boolean } | null>(null);
   const didDrag = React.useRef(false);
-  const selectedIndex = wrapIndex(
-    Math.round(-rotationAngle / anglePerSlide),
-  );
+  const [selected, setSelected] = React.useState(0);
+  const [dragging, setDragging] = React.useState(false);
+  const [spinning, setSpinning] = React.useState(false);
 
-  const commitRotation = React.useCallback((angle: number) => {
-    rotationAngleRef.current = angle;
-    setRotationAngle(angle);
+  function paint(next: number) {
+    angle.current = next;
+    if (rotor.current) rotor.current.style.transform = `translate(-50%, -50%) rotateY(${next}deg)`;
+  }
+  function cancelFrames() {
+    if (motionFrame.current !== null) cancelAnimationFrame(motionFrame.current);
+    if (dragFrame.current !== null) cancelAnimationFrame(dragFrame.current);
+    motionFrame.current = null;
+    dragFrame.current = null;
+  }
+  React.useEffect(() => () => {
+    if (motionFrame.current !== null) cancelAnimationFrame(motionFrame.current);
+    if (dragFrame.current !== null) cancelAnimationFrame(dragFrame.current);
   }, []);
 
-  const cancelSpin = React.useCallback(() => {
-    if (animationFrame.current !== null) {
-      window.cancelAnimationFrame(animationFrame.current);
-      animationFrame.current = null;
-    }
-
-    angularVelocity.current = 0;
-    setIsSpinning(false);
-  }, []);
-
-  React.useEffect(() => cancelSpin, [cancelSpin]);
-
-  const startMomentum = React.useCallback(
-    (releaseVelocity: number, dragDistance: number) => {
-      cancelSpin();
-
-      const spinStartAngle = rotationAngleRef.current;
-      const direction = Math.sign(releaseVelocity || dragDistance);
-      const releaseSpeed = Math.min(720, Math.abs(releaseVelocity) * 1.15);
-      const coastDistance = Math.min(
-        anglePerSlide * 3,
-        releaseSpeed * 0.23,
-      );
-      const landingAngle = Math.round((spinStartAngle + direction * coastDistance) / anglePerSlide) * anglePerSlide;
-      const landingDistance = Math.abs(landingAngle - spinStartAngle);
-
-      if (landingDistance < 0.5) return;
-
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        commitRotation(landingAngle);
-        return;
-      }
-
-      const durationSeconds = Math.max(
-        0.55,
-        Math.min(
-          1.15,
-          (2 * landingDistance) / Math.max(releaseSpeed, 90),
-        ),
-      );
-      const spinStartTime = performance.now();
-      setIsSpinning(true);
-
-      const spin = (currentTime: number) => {
-        const progress = Math.min(
-          (currentTime - spinStartTime) / (durationSeconds * 1000),
-          1,
-        );
-        const easedProgress = 1 - (1 - progress) ** 2;
-        commitRotation(
-          spinStartAngle + (landingAngle - spinStartAngle) * easedProgress,
-        );
-
-        if (progress >= 1) {
-          animationFrame.current = null;
-          angularVelocity.current = 0;
-          setIsSpinning(false);
-          return;
-        }
-
-        animationFrame.current = window.requestAnimationFrame(spin);
-      };
-
-      animationFrame.current = window.requestAnimationFrame(spin);
-    },
-    [cancelSpin, commitRotation],
-  );
-
-  const showPrevious = React.useCallback(() => {
-    cancelSpin();
-    commitRotation(rotationAngleRef.current + anglePerSlide);
-  }, [cancelSpin, commitRotation]);
-
-  const showNext = React.useCallback(() => {
-    cancelSpin();
-    commitRotation(rotationAngleRef.current - anglePerSlide);
-  }, [cancelSpin, commitRotation]);
-
-  const showSlide = (index: number) => {
-    cancelSpin();
-    commitRotation(
-      rotationAngleRef.current -
-        shortestOffset(index, selectedIndex) * anglePerSlide,
-    );
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      showPrevious();
-    }
-
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      showNext();
-    }
-  };
-
-  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.button !== 0) return;
-
-    cancelSpin();
-    pointerStartX.current = event.clientX;
-    pointerStartY.current = event.clientY;
-    horizontalDrag.current = false;
-    previousPointerX.current = event.clientX;
-    previousPointerTime.current = performance.now();
-    angularVelocity.current = 0;
-    didDrag.current = false;
-    setIsDragging(false);
-  };
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (
-      pointerStartX.current === null ||
-      previousPointerX.current === null
-    ) {
+  function settle(next: number) {
+    paint(next);
+    setSelected(wrapIndex(Math.round(-next / anglePerSlide)));
+    setDragging(false);
+    setSpinning(false);
+  }
+  function animateTo(destination: number) {
+    cancelFrames();
+    const start = angle.current;
+    paint(start);
+    if (Math.abs(destination - start) < 0.01 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      settle(destination);
       return;
     }
-
-    const distance = event.clientX - pointerStartX.current;
-    const verticalDistance = event.clientY - (pointerStartY.current ?? event.clientY);
-    if (!horizontalDrag.current) {
-      if (Math.max(Math.abs(distance), Math.abs(verticalDistance)) < 8) return;
-      if (Math.abs(verticalDistance) > Math.abs(distance)) {
-        handlePointerCancel();
-        return;
-      }
-      horizontalDrag.current = true;
-      setIsDragging(true);
-      event.currentTarget.setPointerCapture(event.pointerId);
-    }
-    const currentTime = performance.now();
-    const pointerDelta = event.clientX - previousPointerX.current;
-    const timeDelta = Math.max(currentTime - previousPointerTime.current, 1);
-    const angleDelta = pointerDelta * 0.25;
-    const instantaneousVelocity = (angleDelta / timeDelta) * 1000;
-
-    didDrag.current = didDrag.current || Math.abs(distance) > 5;
-    angularVelocity.current =
-      angularVelocity.current * 0.45 + instantaneousVelocity * 0.55;
-    previousPointerX.current = event.clientX;
-    previousPointerTime.current = currentTime;
-    commitRotation(rotationAngleRef.current + angleDelta);
-  };
-
-  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (pointerStartX.current === null) return;
-
-    const currentTime = performance.now();
-    const distance = event.clientX - pointerStartX.current;
-    const releaseVelocity =
-      currentTime - previousPointerTime.current > 100
-        ? 0
-        : angularVelocity.current;
-    pointerStartX.current = null;
-    pointerStartY.current = null;
-    horizontalDrag.current = false;
-    previousPointerX.current = null;
-    setIsDragging(false);
-
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-
-    if (Math.abs(distance) < 5) {
-      return;
-    }
-
-    startMomentum(releaseVelocity, distance);
-  };
-
-  const handlePointerCancel = () => {
-    pointerStartX.current = null;
-    pointerStartY.current = null;
-    horizontalDrag.current = false;
-    previousPointerX.current = null;
+    const duration = Math.max(320, Math.min(650, Math.abs(destination - start) * 3));
+    const started = performance.now();
+    setSpinning(true);
+    const tick = (now: number) => {
+      const progress = Math.max(0, Math.min(1, (now - started) / duration));
+      paint(start + (destination - start) * (1 - (1 - progress) ** 3));
+      if (progress < 1) motionFrame.current = requestAnimationFrame(tick);
+      else { motionFrame.current = null; settle(destination); }
+    };
+    motionFrame.current = requestAnimationFrame(tick);
+  }
+  function cancelGesture() {
+    gesture.current = null;
     didDrag.current = false;
-    setIsDragging(false);
-    cancelSpin();
-    commitRotation(Math.round(rotationAngleRef.current / anglePerSlide) * anglePerSlide);
-  };
+    cancelFrames();
+    settle(Math.round(angle.current / anglePerSlide) * anglePerSlide);
+  }
+  function pointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if (event.button !== 0 || event.isPrimary === false) return;
+    cancelFrames();
+    paint(angle.current);
+    setSpinning(false);
+    didDrag.current = false;
+    gesture.current = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, time: performance.now(), velocity: 0, active: false };
+  }
+  function pointerMove(event: React.PointerEvent<HTMLDivElement>) {
+    const current = gesture.current;
+    if (!current || current.id !== event.pointerId) return;
+    const x = event.clientX - current.x;
+    const y = event.clientY - current.y;
+    if (!current.active) {
+      if (Math.max(Math.abs(x), Math.abs(y)) < 8) return;
+      if (Math.abs(y) > Math.abs(x)) { cancelGesture(); return; }
+      try { event.currentTarget.setPointerCapture(event.pointerId); }
+      catch { cancelGesture(); return; }
+      current.active = true;
+      didDrag.current = true;
+      setDragging(true);
+    }
+    const now = performance.now();
+    const delta = (event.clientX - current.lastX) * 0.3;
+    current.velocity = current.velocity * 0.5 + delta / Math.max(1, now - current.time) * 500;
+    current.lastX = event.clientX;
+    current.time = now;
+    angle.current += delta;
+    if (dragFrame.current === null) {
+      dragFrame.current = requestAnimationFrame(() => { dragFrame.current = null; paint(angle.current); });
+    }
+  }
+  function pointerUp(event: React.PointerEvent<HTMLDivElement>) {
+    const current = gesture.current;
+    if (!current || current.id !== event.pointerId) return;
+    gesture.current = null;
+    setDragging(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    const velocity = performance.now() - current.time > 100 ? 0 : current.velocity;
+    const coast = current.active ? Math.max(-135, Math.min(135, velocity * 0.16)) : 0;
+    animateTo(Math.round((angle.current + coast) / anglePerSlide) * anglePerSlide);
+  }
 
   return (
-    <div
-      role="region"
-      aria-roledescription="carousel"
-      aria-label="Leadership highlights"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerCancel}
-      onLostPointerCapture={() => { if (pointerStartX.current !== null) handlePointerCancel(); }}
-      className="leadership-carousel relative h-[43rem] w-full touch-pan-y cursor-grab select-none overflow-visible rounded-[2rem] outline-none [perspective:1800px] [transform-style:preserve-3d] active:cursor-grabbing focus-visible:ring-4 focus-visible:ring-[#315fca]/30 sm:h-[40rem] lg:h-[41rem]"
-    >
-      <div
-        className={`absolute left-1/2 top-1/2 h-[34rem] w-[17rem] sm:h-[30rem] sm:w-[23rem] [transform-style:preserve-3d] motion-reduce:transition-none ${
-          isDragging || isSpinning
-            ? 'transition-none'
-            : 'transition-transform duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]'
-        }`}
-        style={{
-          transform: `translate(-50%, -50%) rotateY(${rotationAngle}deg)`,
-        }}
-      >
-        {leadershipSlides.map((slide, index) => {
-          const isSelected = selectedIndex === index;
-
-          return (
-            <button
-              key={slide.title}
-              type="button"
-              onClick={() => {
-                if (didDrag.current) {
-                  didDrag.current = false;
-                  return;
-                }
-
-                showSlide(index);
-              }}
-              aria-label={`Show slide ${index + 1}: ${slide.title}`}
-              aria-current={isSelected ? 'true' : undefined}
-              className="absolute inset-0 block cursor-pointer rounded-2xl border border-white/90 p-0 outline-none [transform-style:preserve-3d] focus-visible:ring-4 focus-visible:ring-[#315fca]/35"
-              style={{
-                opacity: isSelected && !isDragging && !isSpinning ? 0 : 1,
-                transform: `rotateY(${index * anglePerSlide}deg) translateZ(var(--leadership-depth, clamp(13rem, 28vw, 22rem)))`,
-              }}
-            >
-              <LeadershipCardContent slide={slide} index={index} />
-              <span aria-hidden="true" className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl bg-[#e7eef9] p-12 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                <img src={slide.image.src} alt="" draggable={false} width={slide.image.width} height={slide.image.height} className="h-auto w-full object-contain opacity-80" />
-              </span>            </button>
-          );
-        })}
+    <div role="region" aria-roledescription="carousel" aria-label="Leadership highlights" tabIndex={0}
+      className="leadership-carousel relative w-full select-none rounded-[2rem] outline-none focus-visible:ring-4 focus-visible:ring-[#315fca]/30"
+      style={{ cursor: dragging ? 'grabbing' : 'grab' }}
+      onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerUp}
+      onPointerCancel={cancelGesture} onLostPointerCapture={() => { if (gesture.current) cancelGesture(); }}
+      onKeyDown={(event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        animateTo(Math.round(angle.current / anglePerSlide) * anglePerSlide + (event.key === 'ArrowLeft' ? anglePerSlide : -anglePerSlide));
+      }}>
+      <div ref={rotor} className="leadership-rotor absolute left-1/2 top-1/2" style={{ transform: 'translate(-50%, -50%) rotateY(0deg)' }}>
+        {leadershipSlides.map((slide, index) => <button key={slide.title} type="button" className="leadership-card absolute inset-0 block rounded-2xl p-0 outline-none focus-visible:ring-2 focus-visible:ring-[#315fca]"
+          aria-label={`Show slide ${index + 1}: ${slide.title}`} aria-current={selected === index ? 'true' : undefined}
+          style={{ transform: `rotateY(${index * anglePerSlide}deg) translateZ(var(--leadership-depth))` }}
+          onClick={() => {
+            if (didDrag.current) { didDrag.current = false; return; }
+            const nearest = Math.round(angle.current / anglePerSlide) * anglePerSlide;
+            const current = wrapIndex(Math.round(-nearest / anglePerSlide));
+            animateTo(nearest - shortestOffset(index, current) * anglePerSlide);
+          }}>
+          <LeadershipCardContent slide={slide} index={index} />
+          <span aria-hidden="true" className="leadership-card-back absolute inset-0 flex items-center justify-center rounded-2xl bg-[#e7eef9] p-12">
+            <img src={slide.image.src} alt="" draggable={false} width={slide.image.width} height={slide.image.height} className="h-auto w-full object-contain" />
+          </span>
+        </button>)}
       </div>
-
-      {!isDragging && !isSpinning && (
-        <div aria-hidden="true" className="leadership-readable pointer-events-none absolute inset-0 grid place-items-center">
-          <div className="leadership-readable-card relative rounded-2xl border border-white bg-[#fffdfa]">
-            <LeadershipCardContent slide={leadershipSlides[selectedIndex]} index={selectedIndex} />
-          </div>
-        </div>
-      )}
-      <p
-        className="sr-only"
-        aria-live={isDragging || isSpinning ? 'off' : 'polite'}
-      >
-        Slide {selectedIndex + 1} of {leadershipSlides.length}:{' '}
-        {leadershipSlides[selectedIndex]?.title}
-      </p>
-      <p className="sr-only">
-        Drag horizontally with a mouse or swipe to rotate the leadership cards. You can
-        also use the left and right arrow keys.
-      </p>
+      <p className="sr-only" aria-live={dragging || spinning ? 'off' : 'polite'}>Slide {selected + 1} of {leadershipSlides.length}: {leadershipSlides[selected].title}</p>
+      <p className="sr-only">Swipe horizontally to rotate the cards, or use the left and right arrow keys. Scroll vertically to continue down the page.</p>
     </div>
   );
 }

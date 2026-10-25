@@ -120,11 +120,10 @@ nav a[aria-current='location'] {
 #technical-skills > div:last-child > div { display: grid; gap: 1rem; }
 #technical-skills > div:last-child > div > div { margin: 0; }
 
-/* A small 3D ring, with crisp untransformed text when the front card rests. */
+/* One persistent set of card faces, moved by one compositor-friendly rotor. */
 #leadership > div { padding: 1.25rem; border-radius: 2rem; background: #f5f4f0; backdrop-filter: none; box-shadow: none; }
 #leadership .leadership-carousel { --leadership-depth: 10rem; height: 29rem; perspective: 8000px; }
-#leadership .leadership-carousel > div:first-child,
-#leadership .leadership-readable-card { width: min(20rem, calc(100vw - 5.5rem)); height: 26rem; }
+#leadership .leadership-rotor { width: min(20rem, calc(100vw - 5.5rem)); height: 26rem; }
 #leadership .leadership-card-front { padding: 1rem; }
 #leadership .leadership-card-front > span:first-child { margin-bottom: 0.4rem; }
 #leadership .leadership-card-front > span:first-child img { width: 1.75rem; height: 1.75rem; }
@@ -176,21 +175,17 @@ nav a[aria-current='location'] {
   html { scroll-behavior: auto; }
 }
 
-#leadership .leadership-carousel:has(button[aria-current='true']:focus-visible) .leadership-readable-card { outline: 2px solid #315fca; outline-offset: 4px; }
 @media (max-width: 359px) {
   #leadership .leadership-carousel { height: 34rem; }
-  #leadership .leadership-carousel > div:first-child,
-  #leadership .leadership-readable-card { height: 31rem; }
+  #leadership .leadership-rotor { height: 31rem; }
 }
 
 /* Compact leadership composition; edge-on cards must not cast vertical shadows. */
 #leadership .leadership-layout { display: grid; gap: 0.5rem; }
 #leadership .leadership-intro { gap: 0.75rem; }
 #leadership .leadership-layout > div:last-child { min-width: 0; margin-top: 0; }
-#leadership .leadership-carousel button,
-#leadership .leadership-readable-card { box-shadow: none; filter: none; }
+#leadership .leadership-carousel button { box-shadow: none; filter: none; }
 #leadership .leadership-carousel button { border-color: transparent; }
-#leadership .leadership-readable-card { border-color: #dedfe3; }
 
 @media (min-width: 768px) {
   #leadership .leadership-layout { grid-template-columns: 11rem minmax(0, 1fr); align-items: center; gap: 1.25rem; padding: 1.25rem; }
@@ -198,8 +193,7 @@ nav a[aria-current='location'] {
   #top > #leadership h2 { font-size: 2.1rem; }
   #leadership .leadership-intro > p { font-size: 0.75rem; }
   #leadership .leadership-carousel { --leadership-depth: 12rem; height: 25.5rem; }
-  #leadership .leadership-carousel > div:first-child,
-  #leadership .leadership-readable-card { width: min(22rem, 100%); height: 24rem; }
+  #leadership .leadership-rotor { width: min(22rem, 100%); height: 24rem; }
   #leadership .leadership-card-front > span:first-child img { width: 1.5rem; height: 1.5rem; }
   #leadership .leadership-card-front > .display-font { margin-top: 0.4rem; font-size: 1.35rem; }
 }
@@ -230,3 +224,11 @@ nav a[aria-current='location'] {
 
 
 .about-cloud { opacity: 1; }
+
+.leadership-carousel { touch-action: pan-y pinch-zoom; }
+.leadership-rotor { transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
+.leadership-card { transform-style: preserve-3d; -webkit-transform-style: preserve-3d; background: transparent; border: 0; }
+#leadership .leadership-card-front,
+#leadership .leadership-card-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+#leadership .leadership-card-front { transform: translateZ(0.5px); }
+#leadership .leadership-card-back { transform: rotateY(180deg) translateZ(0.5px); }
