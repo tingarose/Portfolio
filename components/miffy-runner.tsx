@@ -314,7 +314,9 @@ export function MiffyRunner() {
             }}
             onBlur={(event) => {
               duck.current = false;
-              if (!event.relatedTarget || !event.currentTarget.closest('section')?.contains(event.relatedTarget)) pause.current();
+              // A touch release can blur the canvas without moving focus elsewhere.
+              // Window blur and visibility changes handle leaving the browser.
+              if (event.relatedTarget && !event.currentTarget.closest('section')?.contains(event.relatedTarget)) pause.current();
             }}
           >Jump over pastries with Space or tap. Hold Down or S to duck under spinning stars.</canvas>
           {mode !== 'running' && <div className="pointer-events-none absolute inset-0 flex items-center justify-center pb-10 pl-20">
@@ -342,7 +344,7 @@ export function MiffyRunner() {
           <button type="button" aria-label="Hold to duck under stars"
             onPointerDown={(event) => {
               event.preventDefault();
-              canvas.current?.focus({ preventScroll: true });
+              event.currentTarget.focus({ preventScroll: true });
               if (mode !== 'running') action.current();
               event.currentTarget.setPointerCapture(event.pointerId);
               duck.current = true;
