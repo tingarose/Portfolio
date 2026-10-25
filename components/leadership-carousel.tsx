@@ -342,11 +342,13 @@ function DesktopLeadershipCarousel() {
 function MobileLeadershipCarousel() {
   const scroller = React.useRef<HTMLDivElement>(null);
   const [active, setActive] = React.useState(0);
+  const [progress, setProgress] = React.useState(0);
   function navigate(index: number) {
     const element = scroller.current;
     const card = element?.children[index] as HTMLElement | undefined;
     if (!element || !card) return;
-    element.scrollTo({ left: card.offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    const first = element.children[0] as HTMLElement;
+    element.scrollTo({ left: card.offsetLeft - first.offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     setActive(index);
   }
   return (
@@ -356,11 +358,16 @@ function MobileLeadershipCarousel() {
           const element = scroller.current;
           if (!element) return;
           const second = element.children[1] as HTMLElement | undefined;
-          const step = second?.offsetLeft || element.clientWidth;
-          setActive(Math.max(0, Math.min(leadershipSlides.length - 1, Math.round(element.scrollLeft / step))));
+          const first = element.children[0] as HTMLElement;
+          const step = second ? second.offsetLeft - first.offsetLeft : element.clientWidth;
+          const position = Math.max(0, Math.min(leadershipSlides.length - 1, element.scrollLeft / step));
+          setProgress(position);
+          setActive(Math.round(position));
         }}>
         {leadershipSlides.map((slide, index) => <article key={slide.title} className="leadership-mobile-card" role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${leadershipSlides.length}: ${slide.title}`}>
-          <LeadershipCardContent slide={slide} index={index} />
+          <div className="leadership-mobile-visual" style={{ '--card-turn': `${Math.max(-1, Math.min(1, index - progress)) * -5}deg`, '--card-scale': 1 - Math.min(1, Math.abs(index - progress)) * 0.06 } as React.CSSProperties}>
+            <LeadershipCardContent slide={slide} index={index} />
+          </div>
         </article>)}
       </div>
       <div className="mt-3 flex items-center justify-between gap-3">

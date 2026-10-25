@@ -35,6 +35,7 @@ const bunny = [
 export function MiffyRunner() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const action = useRef<() => void>(() => {});
+  const jump = useRef<() => void>(() => {});
   const pause = useRef<() => void>(() => {});
   const duck = useRef(false);
   const muted = useRef(false);
@@ -163,7 +164,7 @@ export function MiffyRunner() {
       distance += speed * dt;
       y = Math.max(0, y + velocity * dt);
       velocity -= 1600 * dt;
-      if (y === 0) velocity = 0;
+      if (y === 0 && velocity < 0) velocity = 0;
       const crouching = duck.current && y === 0;
       if (crouching && !wasCrouching) playSound('duck');
       wasCrouching = crouching;
@@ -230,6 +231,14 @@ export function MiffyRunner() {
         playSound('jump');
       }
     };
+    jump.current = () => {
+      duck.current = false;
+      if (state !== 'running') action.current();
+      if (y === 0 && velocity === 0) {
+        velocity = 610;
+        playSound('jump');
+      }
+    };
     pause.current = () => {
       duck.current = false;
       wasCrouching = false;
@@ -266,6 +275,7 @@ export function MiffyRunner() {
       window.removeEventListener('keyup', releaseDuck);
       duck.current = false;
       action.current = () => {};
+      jump.current = () => {};
       pause.current = () => {};
       enableAudio.current = () => {};
       if (audio) void audio.close().catch(() => {});
@@ -318,7 +328,8 @@ export function MiffyRunner() {
           <p className="text-xs leading-5 text-[#737681]"><span className="md:hidden">Tap Jump to jump. Hold Duck to crouch under stars.</span><span className="hidden md:inline">Space / ↑ / tap: jump pastries · hold ↓ / S: duck under stars</span></p>
           <div className="runner-actions flex flex-wrap items-center gap-2">
           <button type="button" aria-label="Start game or jump" className="runner-jump md:hidden touch-manipulation select-none rounded-full border border-[#8498bd]/40 bg-[#e4ecfa] px-4 py-3 text-sm font-semibold text-[#345076]"
-            onClick={() => { canvas.current?.focus({ preventScroll: true }); action.current(); }}
+            onPointerDown={(event) => { event.preventDefault(); jump.current(); }}
+            onClick={(event) => { if (event.detail === 0) jump.current(); }}
           >Jump ↑</button>
           <button type="button" aria-pressed={soundOn} aria-label={soundOn ? 'Mute game sounds' : 'Enable game sounds'}
             onClick={() => {
