@@ -54,7 +54,59 @@ function LeadershipCardContent({ slide, index }: { slide: (typeof leadershipSlid
   );
 }
 
+function MobileLeadershipCarousel() {
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+
+  const showSlide = (index: number) => {
+    const track = trackRef.current;
+    const card = track?.children[wrapIndex(index)] as HTMLElement | undefined;
+    if (!track || !card) return;
+    track.scrollTo({
+      left: card.offsetLeft - (track.children[0] as HTMLElement).offsetLeft,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
+  };
+
+  return (
+    <section className="leadership-mobile" aria-roledescription="carousel" aria-label="Leadership highlights">
+      <div
+        ref={trackRef}
+        className="leadership-mobile-track"
+        onScroll={() => {
+          const track = trackRef.current;
+          if (!track || track.children.length < 2) return;
+          const first = track.children[0] as HTMLElement;
+          const second = track.children[1] as HTMLElement;
+          setActiveIndex(Math.max(0, Math.min(leadershipSlides.length - 1,
+            Math.round(track.scrollLeft / (second.offsetLeft - first.offsetLeft)))));
+        }}
+      >
+        {leadershipSlides.map((slide, index) => (
+          <article key={slide.title} aria-roledescription="slide" aria-label={`${index + 1} of ${leadershipSlides.length}: ${slide.title}`}>
+            <LeadershipCardContent slide={slide} index={index} />
+          </article>
+        ))}
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <button type="button" onClick={() => showSlide(activeIndex - 1)} aria-label="Previous leadership highlight" className="min-h-11 min-w-11 rounded-full border border-[#dedfe3] text-lg focus-visible:outline-2 focus-visible:outline-[#315fca]">←</button>
+        <p className="text-xs text-[#5c6d8c]" aria-live="polite">{activeIndex + 1} / {leadershipSlides.length} · Swipe to explore</p>
+        <button type="button" onClick={() => showSlide(activeIndex + 1)} aria-label="Next leadership highlight" className="min-h-11 min-w-11 rounded-full border border-[#dedfe3] text-lg focus-visible:outline-2 focus-visible:outline-[#315fca]">→</button>
+      </div>
+    </section>
+  );
+}
+
 export function LeadershipCarousel() {
+  return (
+    <>
+      <MobileLeadershipCarousel />
+      <DesktopLeadershipCarousel />
+    </>
+  );
+}
+
+function DesktopLeadershipCarousel() {
   const rotor = React.useRef<HTMLDivElement>(null);
   const angle = React.useRef(0);
   const motionFrame = React.useRef<number | null>(null);

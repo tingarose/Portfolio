@@ -232,3 +232,38 @@ nav a[aria-current='location'] {
 #leadership .leadership-card-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 #leadership .leadership-card-front { transform: translateZ(0.5px); }
 #leadership .leadership-card-back { transform: rotateY(180deg) translateZ(0.5px); }
+
+/* Native scrolling keeps phone swipes independent of the desktop 3D ring. */
+.leadership-mobile { display: none; }
+@media (max-width: 767px) {
+  #leadership .leadership-carousel { display: none; }
+  .leadership-mobile { display: block; min-width: 0; }
+  .leadership-mobile-track {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    border-radius: 1rem;
+  }
+  .leadership-mobile-track::-webkit-scrollbar { display: none; }
+  .leadership-mobile-track > article {
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border: 1px solid #dedfe3;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #fffdfa;
+  }
+  #leadership .leadership-mobile .leadership-card-front {
+    position: relative;
+    transform: none;
+    min-height: 25rem;
+    height: 100%;
+    overflow: visible;
+  }
+}
