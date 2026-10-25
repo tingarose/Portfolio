@@ -205,26 +205,13 @@ nav a[aria-current='location'] {
 }
 
 
-/* Native phone carousel: no 3D layers, fixed heights, or touch pointer capture. */
-.leadership-mobile-track { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; touch-action: auto; scrollbar-width: thin; }
-.leadership-mobile-card { min-width: 0; scroll-snap-align: start; border: 1px solid #dedfe3; border-radius: 1rem; background: #fffdfa; }
-#leadership .leadership-mobile-card .leadership-card-front { position: static; height: auto; overflow: visible; backface-visibility: visible; }
-#leadership .leadership-mobile-card .leadership-card-description { font-size: 0.875rem; line-height: 1.55; }
-#leadership .leadership-mobile-card .leadership-card-skills { font-size: 0.75rem; line-height: 1.5; }
-@media (min-width: 768px) { .leadership-mobile { display: none; } }
-
 @media (max-width: 767px) {
   #hero { min-height: 0; grid-template-columns: 1fr; gap: 0; padding-block: 2rem 1rem; }
   #hero .hero-art { display: none; }
-  #top > #about { min-height: 0; padding: 5rem 1rem; overflow: visible; }
+  #top > #about { min-height: 0; padding: 1.5rem 1rem; overflow: visible; }
+  #about .about-cloud { display: none; }
   #about .about-card { width: 100%; max-width: 28rem; padding: 1.25rem; }
-  #about .about-cloud { width: 7rem; margin: 0; z-index: 2; right: auto; }
-  #about .about-cloud[data-cloud='curious'] { top: 0.25rem; bottom: auto; left: calc(25% - 3.5rem); }
-  #about .about-cloud[data-cloud='creative'] { top: 0.25rem; bottom: auto; left: calc(75% - 3.5rem); }
-  #about .about-cloud[data-cloud='empathetic'] { bottom: 0.25rem; top: auto; left: calc(25% - 3.5rem); }
-  #about .about-cloud[data-cloud='driven'] { bottom: 0.25rem; top: auto; left: calc(75% - 3.5rem); }
   #leadership .leadership-layout { padding: 0.75rem; }
-  .leadership-desktop { display: none; }
   .portfolio-footer .footer-overview { grid-template-columns: minmax(0, 1fr) 8rem; gap: 0.75rem; align-items: center; }
   .portfolio-footer .footer-copy { display: contents; }
   .portfolio-footer .footer-heading { grid-column: 1; grid-row: 1; }
@@ -242,11 +229,4 @@ nav a[aria-current='location'] {
 }
 
 
-/* Phone cards tilt as they revolve through the native swipe track. */
-.leadership-mobile-track { padding: 0.75rem 1rem; scroll-padding-inline: 1rem; }
-.leadership-mobile-card { border: 0; background: transparent; }
-.leadership-mobile-visual { min-height: 100%; border: 1px solid #dedfe3; border-radius: 1rem; background: #fffdfa; transform: rotate(var(--card-turn, 0deg)) scale(var(--card-scale, 1)); transform-origin: center; transition: transform 100ms ease-out; }
 .about-cloud { opacity: 1; }
-@media (prefers-reduced-motion: reduce) {
-  .leadership-mobile-visual { transform: none; transition: none; }
-}

@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { leadershipExperience } from '@/lib/portfolio-content';
-import { useDesktopLayout } from '@/hooks/use-desktop-layout';
 
 import technicalMiffyOne from '../images/technicalmiffy1.png';
 import technicalMiffyTwo from '../images/technicalmiffy2.png';
@@ -55,7 +54,7 @@ function LeadershipCardContent({ slide, index }: { slide: (typeof leadershipSlid
   );
 }
 
-function DesktopLeadershipCarousel() {
+export function LeadershipCarousel() {
   const initialRotation = 0;
   const [rotationAngle, setRotationAngle] = React.useState(initialRotation);
   const [isDragging, setIsDragging] = React.useState(false);
@@ -273,7 +272,7 @@ function DesktopLeadershipCarousel() {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerCancel}
       onLostPointerCapture={() => { if (pointerStartX.current !== null) handlePointerCancel(); }}
-      className="leadership-desktop leadership-carousel relative h-[43rem] w-full touch-pan-y cursor-grab select-none overflow-visible rounded-[2rem] outline-none [perspective:1800px] [transform-style:preserve-3d] active:cursor-grabbing focus-visible:ring-4 focus-visible:ring-[#315fca]/30 sm:h-[40rem] lg:h-[41rem]"
+      className="leadership-carousel relative h-[43rem] w-full touch-pan-y cursor-grab select-none overflow-visible rounded-[2rem] outline-none [perspective:1800px] [transform-style:preserve-3d] active:cursor-grabbing focus-visible:ring-4 focus-visible:ring-[#315fca]/30 sm:h-[40rem] lg:h-[41rem]"
     >
       <div
         className={`absolute left-1/2 top-1/2 h-[34rem] w-[17rem] sm:h-[30rem] sm:w-[23rem] [transform-style:preserve-3d] motion-reduce:transition-none ${
@@ -336,50 +335,4 @@ function DesktopLeadershipCarousel() {
       </p>
     </div>
   );
-}
-
-
-function MobileLeadershipCarousel() {
-  const scroller = React.useRef<HTMLDivElement>(null);
-  const [active, setActive] = React.useState(0);
-  const [progress, setProgress] = React.useState(0);
-  function navigate(index: number) {
-    const element = scroller.current;
-    const card = element?.children[index] as HTMLElement | undefined;
-    if (!element || !card) return;
-    const first = element.children[0] as HTMLElement;
-    element.scrollTo({ left: card.offsetLeft - first.offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-    setActive(index);
-  }
-  return (
-    <div className="leadership-mobile" role="region" aria-roledescription="carousel" aria-label="Leadership highlights">
-      <div ref={scroller} className="leadership-mobile-track" tabIndex={0} aria-label="Swipe horizontally through leadership roles"
-        onScroll={() => {
-          const element = scroller.current;
-          if (!element) return;
-          const second = element.children[1] as HTMLElement | undefined;
-          const first = element.children[0] as HTMLElement;
-          const step = second ? second.offsetLeft - first.offsetLeft : element.clientWidth;
-          const position = Math.max(0, Math.min(leadershipSlides.length - 1, element.scrollLeft / step));
-          setProgress(position);
-          setActive(Math.round(position));
-        }}>
-        {leadershipSlides.map((slide, index) => <article key={slide.title} className="leadership-mobile-card" role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${leadershipSlides.length}: ${slide.title}`}>
-          <div className="leadership-mobile-visual" style={{ '--card-turn': `${Math.max(-1, Math.min(1, index - progress)) * -5}deg`, '--card-scale': 1 - Math.min(1, Math.abs(index - progress)) * 0.06 } as React.CSSProperties}>
-            <LeadershipCardContent slide={slide} index={index} />
-          </div>
-        </article>)}
-      </div>
-      <div className="mt-3 flex items-center justify-between gap-3">
-        <button type="button" onClick={() => navigate(active - 1)} disabled={active === 0} aria-label="Previous leadership role" className="min-h-11 rounded-full border border-[#8498bd]/40 px-4 text-sm text-[#5c6d8c] disabled:opacity-40">← Previous</button>
-        <span className="text-xs text-[#5c6d8c]" aria-live="polite">{active + 1} / {leadershipSlides.length}</span>
-        <button type="button" onClick={() => navigate(active + 1)} disabled={active === leadershipSlides.length - 1} aria-label="Next leadership role" className="min-h-11 rounded-full border border-[#8498bd]/40 px-4 text-sm text-[#5c6d8c] disabled:opacity-40">Next →</button>
-      </div>
-    </div>
-  );
-}
-
-export function LeadershipCarousel() {
-  const desktop = useDesktopLayout();
-  return desktop ? <DesktopLeadershipCarousel /> : <MobileLeadershipCarousel />;
 }

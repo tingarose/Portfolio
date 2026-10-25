@@ -363,7 +363,7 @@ export default function Home() {
               </div>
               <p className="flex items-center gap-2 text-sm text-[#737681]">
                 <MoveHorizontalIcon className="size-4" aria-hidden="true" />
-                <span className="md:hidden">Swipe or use the arrows</span><span className="hidden md:inline">Drag the loop to explore</span>
+                <span className="md:hidden">Swipe to rotate</span><span className="hidden md:inline">Drag the loop to explore</span>
               </p>
             </div>
             <div className="mt-3">
